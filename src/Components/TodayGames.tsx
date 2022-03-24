@@ -21,14 +21,14 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     return(
         <>{ Object.keys(games).length > 0 ? 
         <div style={{paddingTop: '35px'}}>
-            <u>Today's NHL games for <strong>{today}</strong></u>
+            <p style={{fontSize: '2em'}}><u>Today's NHL games for <strong>{today}</strong></u></p>
             {games.map( (g: any, i:number) => {
                 // api response is very, very nested
                 let awayTeam = g.teams.away.team.name
                 let awayRec = g.teams.away.leagueRecord
                 let homeTeam = g.teams.home.team.name
                 let homeRec = g.teams.home.leagueRecord
-               return <p key={i}>
+               return <p style={{fontSize: '1.3em'}} key={i}>
                    {awayTeam} ({awayRec.wins}-{awayRec.losses}-{awayRec.ot}) 
                    vs. {homeTeam} ({homeRec.wins}-{homeRec.losses}-{homeRec.ot})
                    </p>
