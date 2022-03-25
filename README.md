@@ -1,2 +1,2 @@
 # Today's NHL Games :ice_hockey:
-A Typescript application that will (eventually) be an NHL fan dashboard, making use of [this excellent API](https://gitlab.com/dword4/nhlapi/-/blob/master/stats-api.md)
+A Typescript application that will (eventually) be an NHL fan dashboard, making use of [some amazing work](https://gitlab.com/dword4/nhlapi/-/blob/master/stats-api.md) a dev has done to document an existing API.
