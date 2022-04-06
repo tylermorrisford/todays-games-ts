@@ -39,7 +39,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
 
     return(
         <>
-        {leaders.length > 0 ? <div> {category} Leaders
+        {leaders.length > 0 ? <div> <p style={{fontSize: '1.2em'}}><strong>{category} Leaders</strong></p>
             {leaders.map( (leader: any, i: number) => {
                 return <p key={i}>{leader.person.fullName}, {leader.team.name} - {leader.value}</p>
             })}</div>
