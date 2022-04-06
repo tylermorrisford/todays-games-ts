@@ -34,7 +34,7 @@ export default function App() {
           {i === leaderCategories.length - 1 ? '' : <hr style={{width: '30%'}} />}
         </>
       })}
-      <hr />
+      <hr style={{width: '60%'}} />
       <p style={{fontSize: '1.5em'}}><em><strong>Goaltender Leaders</strong></em></p>
       {goaltenderCategories.map((cat: string) => {
         return <>
