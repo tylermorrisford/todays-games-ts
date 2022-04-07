@@ -27,19 +27,19 @@ export default function App() {
     <div className="App">
       <TodayGames />
       <hr />
-      <p style={{fontSize: '1.5em'}}><em><strong>Player Leaders</strong></em></p>
+      <p style={{fontSize: '1.5em'}}><em><strong>Player Category Leaders</strong></em></p>
       {leaderCategories.map((cat: string, i: number) => {
         return <>
           <Leaders season={season} category={cat} key={cat} />
-          {i === leaderCategories.length - 1 ? '' : <hr style={{width: '30%'}} />}
+          {/* {i === leaderCategories.length - 1 ? '' : <hr style={{width: '30%'}} />} */}
         </>
       })}
       <hr style={{width: '60%'}} />
-      <p style={{fontSize: '1.5em'}}><em><strong>Goaltender Leaders</strong></em></p>
+      <p style={{fontSize: '1.5em'}}><em><strong>Goaltender Category Leaders</strong></em></p>
       {goaltenderCategories.map((cat: string) => {
         return <>
           <Leaders season={season} category={cat} key={cat} />
-          <hr style={{width: '30%'}} />
+          {/* <hr style={{width: '30%'}} /> */}
         </>
       })}
     </div>

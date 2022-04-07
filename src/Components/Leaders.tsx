@@ -1,11 +1,8 @@
 import React from 'react'
 
-// generalize this component so it takes a leader category as a prop and renders a top 5 list
 // EXAMPLE of the leaders API - will return an empty response without category/season
 // https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=goals&season=20202021.
 
-// GET https://statsapi.web.nhl.com/api/v1/seasons/current --> returns the current season
-// also may be helpful to pass as a prop to this component
 interface LeaderProps {
     season: string,
     category: string
@@ -18,15 +15,6 @@ interface ResponseObject {
 export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}): JSX.Element => {
     const [leaders, setLeaders] = React.useState([])
 
-    // React.useEffect(() => { // Grab season id on load
-    //     fetch('https://statsapi.web.nhl.com/api/v1/seasons/current')
-    //         .then(res => res.json())
-    //         .then((data: ResponseObject = {}) => {
-    //             console.log('current season:', data)
-    //             setSeason(data.seasons[0].seasonId)
-    //         })
-    // }, [])
-
     React.useEffect(() => {
         if (season !== '') { // if season exists, use it to fetch leaders
             fetch(`https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=${category}&season=${season}`)
@@ -37,12 +25,26 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
                 })}
     }, [season, category])
 
+    const leaderStyle = {
+        display: 'inline-block',
+        border: '1px solid grey', 
+        width: '365px',
+        height: '215px',
+        borderRadius: '5px',
+        padding: '4px 20px',
+        margin: '5px',
+        textAlign: "left" as const
+    }
+
     return(
         <>
-        {leaders.length > 0 ? <div> <p style={{fontSize: '1.2em'}}><strong>{category} Leaders</strong></p>
+        {leaders.length > 0 ? <div style={leaderStyle}> <p style={{fontSize: '1.2em'}}><strong>{category} Leaders &rarr;</strong></p>
+            <table>
             {leaders.map( (leader: any, i: number) => {
-                return <p key={i}>{leader.person.fullName}, {leader.team.name} - {leader.value}</p>
-            })}</div>
+                return <tr key={i}><td>{leader.person.fullName}, {leader.team.name}</td>&nbsp;{" "}&nbsp;<td>{leader.value}</td></tr>
+            })}
+            </table>
+            </div>
         : <div>Loading leaders...</div>
         }   
         </>
