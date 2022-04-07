@@ -39,7 +39,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                        : <>({awayRec.wins}-{awayRec.losses}-{awayRec.ot})</>} 
                     </span>
                    {" "}<small>vs.</small>{" "} 
-                    <span style={{color:hScore>aScore ? 'green' : hScore<aScore ? 'grey' : 'yellow'}}>
+                    <span style={{color:hScore>aScore ? 'green' : hScore<aScore ? 'grey' : 'black'}}>
                         {homeTeam} {(gameState === "Live" || gameState === "Final") ? <>{hScore}</> 
                         : <>({homeRec.wins}-{homeRec.losses}-{homeRec.ot})</>}</span>
                    </p>
