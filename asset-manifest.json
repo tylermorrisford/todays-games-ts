@@ -1,15 +1,13 @@
 {
   "files": {
-    "main.css": "/todays-games-ts/static/css/main.073c9b0a.css",
-    "main.js": "/todays-games-ts/static/js/main.9292ee5c.js",
-    "static/js/787.d9783c2d.chunk.js": "/todays-games-ts/static/js/787.d9783c2d.chunk.js",
+    "main.css": "/todays-games-ts/static/css/main.846e89b6.css",
+    "main.js": "/todays-games-ts/static/js/main.d4f19d81.js",
     "index.html": "/todays-games-ts/index.html",
-    "main.073c9b0a.css.map": "/todays-games-ts/static/css/main.073c9b0a.css.map",
-    "main.9292ee5c.js.map": "/todays-games-ts/static/js/main.9292ee5c.js.map",
-    "787.d9783c2d.chunk.js.map": "/todays-games-ts/static/js/787.d9783c2d.chunk.js.map"
+    "main.846e89b6.css.map": "/todays-games-ts/static/css/main.846e89b6.css.map",
+    "main.d4f19d81.js.map": "/todays-games-ts/static/js/main.d4f19d81.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.9292ee5c.js"
+    "static/css/main.846e89b6.css",
+    "static/js/main.d4f19d81.js"
   ]
 }
