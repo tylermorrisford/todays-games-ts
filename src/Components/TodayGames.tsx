@@ -1,6 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 import Card from 'react-bootstrap/Card'
+import NHLLogo from '../Assets/NHL_Logo_former.svg'
 
 interface ResponseObject {
     [key: string]: any
@@ -24,7 +25,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     return(
         <>{ Object.keys(games).length > 0 ? 
         <div>
-            <p style={{fontSize: '2em'}}>Today's NHL games, <strong>{today}</strong></p>
+            <p style={{fontSize: '2em'}}><img src={NHLLogo} width="45px" height="45px" alt="NHL Logo"/>{" "}Today's games, <strong>{today}</strong></p>
             {games.map( (g: any, i:number) => {
                 // api response is very, very nested
                 let awayTeam: string = g.teams.away.team.name
