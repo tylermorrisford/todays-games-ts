@@ -2,6 +2,10 @@ import React from 'react';
 import './App.css';
 import { Leaders } from './Components/Leaders';
 import { TodayGames } from './Components/TodayGames';
+import { Standings } from './Components/Standings'
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
 
 interface ResponseObject {
   [key: string]: any
@@ -24,25 +28,38 @@ export default function App() {
 }, [])
 
   return (
-    <div className="App">
-      <TodayGames />
+
+    <Container>
+      <Row className="mt-3">
+        <Col sm={12} md={4}>
+          <TodayGames />
+        </Col>
+        <Col sm={12} md={{span: 6, offset: 1}} className="mt-3">
+          <p style={{fontSize: '1.5em'}}>League Standings</p>
+          <Standings />
+        </Col>
+      </Row>
       <hr />
-      <p style={{fontSize: '1.5em'}}><em><strong>Player Category Leaders</strong></em></p>
+      <Row>
+        <h2 className='text-center'><strong>Stats Leaders</strong></h2>
+        <Col sm={12} md={8}>
+      <p style={{fontSize: '1.5em'}}><em><strong>Players</strong></em></p>
       {leaderCategories.map((cat: string, i: number) => {
         return <>
           <Leaders season={season} category={cat} key={cat} />
-          {/* {i === leaderCategories.length - 1 ? '' : <hr style={{width: '30%'}} />} */}
         </>
       })}
-      <hr style={{width: '60%'}} />
-      <p style={{fontSize: '1.5em'}}><em><strong>Goaltender Category Leaders</strong></em></p>
-      {goaltenderCategories.map((cat: string) => {
-        return <>
-          <Leaders season={season} category={cat} key={cat} />
-          {/* <hr style={{width: '30%'}} /> */}
-        </>
-      })}
-    </div>
+        </Col>
+        <Col sm={12} md={4}>
+        <p style={{fontSize: '1.5em'}}><em><strong>Goaltenders</strong></em></p>
+          {goaltenderCategories.map((cat: string) => {
+            return <>
+              <Leaders season={season} category={cat} key={cat} />
+            </>
+          })}
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

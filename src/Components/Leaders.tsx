@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Card from 'react-bootstrap/Card'
 // EXAMPLE of the leaders API - will return an empty response without category/season
 // https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=goals&season=20202021.
 
@@ -25,6 +25,13 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
                 })}
     }, [season, category])
 
+    const getShortName = (name: string) => {
+        if (name === 'Detroit Red Wings') return 'Detroit'
+        if (name === 'Columbus Blue Jackets') return 'Columbus'
+        if (name === 'Toronto Maple Leafs') return 'Toronto'
+        return name.substring(0, name.lastIndexOf(" "))
+    }
+
     const leaderStyle = {
         display: 'inline-block',
         border: '1px solid grey', 
@@ -38,14 +45,17 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
 
     return(
         <>
-        {leaders.length > 0 ? <div style={leaderStyle}> <p style={{fontSize: '1.2em'}}><strong>{category} Leaders &rarr;</strong></p>
+        {leaders.length > 0 ? <Card style={leaderStyle}> <Card.Header style={{fontSize: '1.2em', backgroundColor: 'white'}}><strong>{category} Leaders &rarr;</strong></Card.Header>
+            <Card.Body>
+
             <table>
             {leaders.map( (leader: any, i: number) => {
-                return <tr key={i}><td>{leader.person.fullName}, {leader.team.name}</td>&nbsp;{" "}&nbsp;<td>{leader.value}</td></tr>
+                return <tr key={i}><td>{leader.person.fullName}, {getShortName(leader.team.name)}</td>&nbsp;{" "}&nbsp;<td style={{textAlign: 'right'}}>{leader.value}</td></tr>
             })}
             </table>
-            </div>
-        : <div>Loading leaders...</div>
+            </Card.Body>
+            </Card>
+        : <div>{`Loading ${category} leaders...`}</div>
         }   
         </>
     )

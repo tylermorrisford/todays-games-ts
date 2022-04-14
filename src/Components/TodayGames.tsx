@@ -1,5 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
+import Card from 'react-bootstrap/Card'
 
 interface ResponseObject {
     [key: string]: any
@@ -22,27 +23,28 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
  
     return(
         <>{ Object.keys(games).length > 0 ? 
-        <div style={{paddingTop: '35px'}}>
-            <p style={{fontSize: '2em'}}><u>Today's NHL games for <strong>{today}</strong></u></p>
+        <div>
+            <p style={{fontSize: '2em'}}>Today's NHL games, <strong>{today}</strong></p>
             {games.map( (g: any, i:number) => {
                 // api response is very, very nested
-                let awayTeam = g.teams.away.team.name
+                let awayTeam: string = g.teams.away.team.name
                 let awayRec = g.teams.away.leagueRecord
                 let aScore: number = g.teams.away.score
                 let hScore: number = g.teams.home.score
-                let homeTeam = g.teams.home.team.name
+                let homeTeam: string = g.teams.home.team.name
                 let homeRec = g.teams.home.leagueRecord
                 let gameState: string = g.status.abstractGameState
-               return <p style={{fontSize: '1.3em'}} key={i}>
+               return <Card className="mt-2 p-2" style={{fontSize: '1.3em'}} key={i}>
                     <span style={{color:aScore>hScore ? 'green' : aScore<hScore ? 'grey' : 'black'}}>
                        {awayTeam} {(gameState === "Live" || gameState === "Final") ?  <>{aScore}</> 
                        : <>({awayRec.wins}-{awayRec.losses}-{awayRec.ot})</>} 
                     </span>
-                   {" "}<small>vs.</small>{" "} 
+                   {/* {" "}<small>vs.</small>{" "}  */}
                     <span style={{color:hScore>aScore ? 'green' : hScore<aScore ? 'grey' : 'black'}}>
-                        {homeTeam} {(gameState === "Live" || gameState === "Final") ? <>{hScore}</> 
+                        {homeTeam} {(gameState === "Live" || gameState === "Final") ? 
+                        <>{hScore}<span style={{float: 'right', color: gameState === 'Live' ? 'green' : 'black'}}>{gameState}</span></> 
                         : <>({homeRec.wins}-{homeRec.losses}-{homeRec.ot})</>}</span>
-                   </p>
+                   </Card>
             } )}
         </div>
         : <div>Loading game data...</div>
