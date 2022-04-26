@@ -20,7 +20,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
             fetch(`https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=${category}&season=${season}`)
                 .then(res => res.json())
                 .then((data: ResponseObject = {}) => {
-                    console.log(`${category} leaders`, data)
+                    // console.log(`${category} leaders`, data)
                     setLeaders(data.leagueLeaders[0].leaders)
                 })}
     }, [season, category])
@@ -49,9 +49,14 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
             <Card.Body>
 
             <table>
-            {leaders.map( (leader: any, i: number) => {
-                return <tr key={i}><td>{leader.person.fullName}, {getShortName(leader.team.name)}</td>&nbsp;{" "}&nbsp;<td style={{textAlign: 'right'}}>{leader.value}</td></tr>
-            })}
+                <tbody>
+                    {leaders.map( (leader: any, i: number) => {
+                        return <tr key={i}>
+                                <td>{leader.person.fullName}, {getShortName(leader.team.name)}</td>&nbsp;{" "}&nbsp;
+                                <td style={{textAlign: 'right'}}>{leader.value}</td>
+                               </tr> 
+                    })}
+                </tbody>
             </table>
             </Card.Body>
             </Card>

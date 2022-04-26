@@ -20,26 +20,33 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
     }, [])
 
     return(
-        <Table responsive borderless hover>
-            <thead>
-                <tr>
-                    <td>Rank</td>
-                    <td>Team</td>
-                    <td>Pts</td>
-                </tr>
-            </thead>
-            {standings.map((conf: any) => {
-                return conf.teamRecords.map((rec: any, i: number) => {
-                    return <tr key={i}>
-                        <td>{rec.divisionRank}</td>
-                        <td style={{fontWeight: parseInt(rec.divisionRank) < 4 ? '900' : ''}}>
-                            {rec.team.name}{rec.clinchIndicator !== "" ? <small>{rec.clinchIndicator}</small> : ''}
-                        </td>
-                        <td>{rec.points}</td>
-                        </tr>
-                })
-            })}
+        <div style={{border: '1px solid whitesmoke', borderRadius: '5px', padding: '10px'}}>
+            <p style={{fontSize: '1.5em'}}>League Standings</p>
+            <Table responsive borderless hover>
+                <thead>
+                    <tr>
+                        <td>Rank</td>
+                        <td>Team</td>
+                        <td>ROW</td>
+                        <td>Pts</td>
+                        <td>p%</td>
+                    </tr>
+                </thead>
+                {standings.map((conf: any) => {
+                    return conf.teamRecords.map((rec: any, i: number) => {
+                        return <tr key={i}>
+                            <td>{rec.divisionRank}</td>
+                            <td style={{fontWeight: parseInt(rec.divisionRank) < 4 ? '900' : ''}}>
+                                {rec.team.name}{rec.clinchIndicator !== "" ? <small>{rec.clinchIndicator}</small> : ''}
+                            </td>
+                            <td>{rec.row}</td>
+                            <td>{rec.points}</td>
+                            <td>{rec.pointsPercentage.toFixed(3)}</td>
+                            </tr>
+                    })
+                })}
 
-        </Table>
+            </Table>
+        </div>
     )
 }

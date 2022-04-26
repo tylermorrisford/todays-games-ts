@@ -2,6 +2,7 @@ import React from 'react'
 import dayjs from 'dayjs'
 import Card from 'react-bootstrap/Card'
 import NHLLogo from '../Assets/NHL_Logo_former.svg'
+import { GameStatus } from './GameStatus'
 
 interface ResponseObject {
     [key: string]: any
@@ -25,7 +26,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     return(
         <>{ Object.keys(games).length > 0 ? 
         <div>
-            <p style={{fontSize: '2em'}}><img src={NHLLogo} width="45px" height="45px" alt="NHL Logo"/>{" "}Today's games, <strong>{today}</strong></p>
+            <p style={{fontSize: '2em', marginBottom: 0}}><img src={NHLLogo} width="45px" height="45px" alt="NHL Logo"/>{" "}<strong>{today}</strong></p>
+            <p className="text-center"><small style={{color: 'grey'}}>a dashboard for nerds</small></p>
             {games.map( (g: any, i:number) => {
                 // api response is very, very nested
                 let awayTeam: string = g.teams.away.team.name
@@ -43,7 +45,11 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                    {/* {" "}<small>vs.</small>{" "}  */}
                     <span style={{color:hScore>aScore ? 'green' : hScore<aScore ? 'grey' : 'black'}}>
                         {homeTeam} {(gameState === "Live" || gameState === "Final") ? 
-                        <>{hScore}<span style={{float: 'right', color: gameState === 'Live' ? 'green' : 'black'}}>{gameState}</span></> 
+                        <>{hScore}
+                            <span style={{float: 'right', color: gameState === 'Live' ? 'green' : 'black'}}>
+                                {gameState === "Live" ? <GameStatus id={g.gamePk} /> : gameState}
+                            </span>
+                        </> 
                         : <>({homeRec.wins}-{homeRec.losses}-{homeRec.ot})</>}</span>
                    </Card>
             } )}
