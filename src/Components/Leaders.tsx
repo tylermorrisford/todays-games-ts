@@ -29,6 +29,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
         if (name === 'Detroit Red Wings') return 'Detroit'
         if (name === 'Columbus Blue Jackets') return 'Columbus'
         if (name === 'Toronto Maple Leafs') return 'Toronto'
+        if (name === 'Vegas Golden Knights') return 'Vegas'
         return name.substring(0, name.lastIndexOf(" "))
     }
 

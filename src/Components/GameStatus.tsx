@@ -26,7 +26,7 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({id}): JSX.Elem
     }, [id])
 
 
-    return <>{period ? <span>{period} - {remaining}</span>: <Spinner animation="grow" variant="success" size="sm" />}</>
+    return <>{period ? <span>{remaining} - {period}</span>: <Spinner animation="grow" variant="success" size="sm" />}</>
 
 
 }
