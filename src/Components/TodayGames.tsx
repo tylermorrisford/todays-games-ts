@@ -16,8 +16,6 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
         fetch('https://statsapi.web.nhl.com/api/v1/schedule')
             .then(res => res.json())
             .then((data: ResponseObject = {}) => {
-                console.log('GAMES', data.dates[0].games);
-                console.log('FULL RES OBJECT', data);
                 setGames(data.dates[0].games)
                 setToday(dayjs(data.dates[0].date).format('dddd, MMMM D, YYYY'))
             })
