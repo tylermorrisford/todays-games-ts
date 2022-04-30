@@ -27,7 +27,9 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
  
     return(
         <div>
-            <p style={{fontSize: '2em', marginBottom: 0}}><img src={NHLLogo} width="45px" height="45px" alt="NHL Logo"/>{" "}<strong>{today}</strong></p>
+            <p style={{fontSize: '2em', marginBottom: 0}}><img src={NHLLogo} width="45px" height="45px" alt="NHL Logo"/>
+                {" "}<strong>{today ? today : dayjs().format('dddd, MMMM D, YYYY')}</strong>
+            </p>
             <p className="text-center"><small style={{color: 'grey'}}>a dashboard for nerds</small></p>
             <>{noGames ? <p>No games scheduled :/</p> : Object.keys(games).length > 0 ? 
             games.map( (g: any, i:number) => {
