@@ -58,7 +58,8 @@ export default function App() {
       </Row>
       <Row>
         <Col className="mt-3" sm={12} md={{span: 6, offset: 3}}>
-        <small>{copyright}</small>
+          <hr />
+          <small>{copyright}<br />Info about the developer is <a href="https://teef.dev">here</a>.</small>
         </Col>
       </Row>
     </Container>
