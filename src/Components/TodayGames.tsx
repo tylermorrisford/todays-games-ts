@@ -30,7 +30,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
             <p style={{fontSize: '2em', marginBottom: 0}}><img src={NHLLogo} width="45px" height="45px" alt="NHL Logo"/>
                 {" "}<strong>{today ? today : dayjs().format('dddd, MMMM D, YYYY')}</strong>
             </p>
-            <p className="text-center"><small style={{color: 'grey'}}>a dashboard for nerds</small></p>
+            <p className="text-center"><small style={{color: 'grey'}}>Today in the NHL - a dashboard for nerds</small></p>
             <>{noGames ? <p>No games scheduled :/</p> : Object.keys(games).length > 0 ? 
             games.map( (g: any, i:number) => {
                 // api response is very, very nested
