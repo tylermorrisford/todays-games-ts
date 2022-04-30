@@ -53,8 +53,10 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
                 <tbody>
                     {leaders.map( (leader: any, i: number) => {
                         return <tr key={i}>
-                                <td>{leader.person.fullName}, {getShortName(leader.team.name)}</td>&nbsp;{" "}&nbsp;
-                                <td style={{textAlign: 'right'}}>{leader.value}</td>
+                                <td>{leader.person.fullName}, {getShortName(leader.team.name)}</td>
+                                <td>&nbsp;{" "}&nbsp;</td>
+                                <td>&nbsp;{" "}&nbsp;</td>
+                                <td>{leader.value}</td>
                                </tr> 
                     })}
                 </tbody>

@@ -14,6 +14,7 @@ interface ResponseObject {
 export default function App() {
 
   const [season, setSeason] = React.useState('')
+  const [copyright, setCopyright] = React.useState('')
 
   const leaderCategories: Array<string> = ['goals', 'assists', 'points', 'shots', 'timeOnIcePerGame', 'faceOffPct', 'plusMinus', 'shootingPctg', 'hits', 'penaltyMinutes']
   const goaltenderCategories: Array<string> = ['wins', 'gaa', 'shutouts', 'savePct', 'losses', 'otLosses']
@@ -24,6 +25,7 @@ export default function App() {
         .then((data: ResponseObject = {}) => {
             console.log('current season:', data)
             setSeason(data.seasons[0].seasonId)
+            setCopyright(data.copyright)
         })
 }, [])
 
@@ -44,18 +46,19 @@ export default function App() {
         <Col sm={12} md={8}>
       <p style={{fontSize: '1.5em'}}><em><strong>Players</strong></em></p>
       {leaderCategories.map((cat: string, i: number) => {
-        return <>
-          <Leaders season={season} category={cat} key={cat} />
-        </>
+        return <Leaders season={season} category={cat} key={cat} />
       })}
         </Col>
         <Col sm={12} md={4}>
         <p style={{fontSize: '1.5em'}}><em><strong>Goaltenders</strong></em></p>
           {goaltenderCategories.map((cat: string) => {
-            return <>
-              <Leaders season={season} category={cat} key={cat} />
-            </>
+            return <Leaders season={season} category={cat} key={cat} />
           })}
+        </Col>
+      </Row>
+      <Row>
+        <Col className="mt-3" sm={12} md={{span: 6, offset: 3}}>
+        <small>{copyright}</small>
         </Col>
       </Row>
     </Container>

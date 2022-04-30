@@ -11,22 +11,26 @@ interface ResponseObject {
 export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     const [games, setGames] = React.useState([])
     const [today, setToday] = React.useState('')
+    const [noGames, setNoGames] = React.useState(false);
 
     React.useEffect(() => {
         fetch('https://statsapi.web.nhl.com/api/v1/schedule')
             .then(res => res.json())
             .then((data: ResponseObject = {}) => {
+                if (data.totalGames === 0) {return setNoGames(true)}
+                console.log('GAMES', data.dates[0].games);
+                console.log('FULL RES OBJECT', data);
                 setGames(data.dates[0].games)
                 setToday(dayjs(data.dates[0].date).format('dddd, MMMM D, YYYY'))
             })
     }, [])
  
     return(
-        <>{ Object.keys(games).length > 0 ? 
         <div>
             <p style={{fontSize: '2em', marginBottom: 0}}><img src={NHLLogo} width="45px" height="45px" alt="NHL Logo"/>{" "}<strong>{today}</strong></p>
             <p className="text-center"><small style={{color: 'grey'}}>a dashboard for nerds</small></p>
-            {games.map( (g: any, i:number) => {
+            <>{noGames ? <p>No games scheduled :/</p> : Object.keys(games).length > 0 ? 
+            games.map( (g: any, i:number) => {
                 // api response is very, very nested
                 let awayTeam: string = g.teams.away.team.name
                 let awayRec = g.teams.away.leagueRecord
@@ -50,10 +54,10 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                         </> 
                         : <>({homeRec.wins}-{homeRec.losses}-{homeRec.ot})</>}</span>
                    </Card>
-            } )}
-        </div>
-        : <div>Loading game data...</div>
+            } )
+            : <div>Loading game data...</div> 
         }
         </>
+        </div>
     )
 }
