@@ -14,7 +14,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     const [noGames, setNoGames] = React.useState(false);
 
     React.useEffect(() => {
-        fetch('https://statsapi.web.nhl.com/api/v1/schedule')
+        const searchToday: string = dayjs().format('YYYY-MM-DD')
+        fetch(`https://statsapi.web.nhl.com/api/v1/schedule?startDate=${searchToday}`)
             .then(res => res.json())
             .then((data: ResponseObject = {}) => {
                 if (data.totalGames === 0) {return setNoGames(true)}
