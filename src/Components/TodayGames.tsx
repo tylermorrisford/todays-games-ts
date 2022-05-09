@@ -45,7 +45,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                return <Card className="mt-2 p-2" style={{fontSize: '1.3em'}} key={i}>
                     <span style={{color:aScore>hScore ? 'green' : aScore<hScore ? 'grey' : 'black'}}>
                        {awayTeam} {(gameState === "Live" || gameState === "Final") ?  <>{aScore}</> 
-                       : <>({awayRec.wins}-{awayRec.losses}-{awayRec.ot})</>} 
+                       : <>({awayRec.wins}-{awayRec.losses}{awayRec.ot ? '-'+awayRec.ot : ''})</>} 
                     </span>
                    {/* {" "}<small>vs.</small>{" "}  */}
                     <span style={{color:hScore>aScore ? 'green' : hScore<aScore ? 'grey' : 'black'}}>
@@ -55,7 +55,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                                 {gameState === "Live" ? <GameStatus id={g.gamePk} /> : gameState}
                             </span>
                         </> 
-                        : <>({homeRec.wins}-{homeRec.losses}-{homeRec.ot})</>}</span>
+                        : <>({homeRec.wins}-{homeRec.losses}{homeRec.ot ? '-'+homeRec.ot : ''})</>}</span>
                    </Card>
             } )
             : <div>Loading game data...</div> 
