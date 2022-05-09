@@ -35,7 +35,6 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
 
     const leaderStyle = {
         display: 'inline-block',
-        border: '1px solid grey', 
         width: '365px',
         height: '215px',
         borderRadius: '5px',
@@ -46,7 +45,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
 
     return(
         <>
-        {leaders.length > 0 ? <Card style={leaderStyle}> <Card.Header style={{fontSize: '1.2em', backgroundColor: 'white'}}><strong>{category} Leaders &rarr;</strong></Card.Header>
+        {leaders.length > 0 ? <Card className="shadow" style={leaderStyle}> <Card.Header style={{fontSize: '1.2em', backgroundColor: 'white'}}><strong>{category} Leaders &rarr;</strong></Card.Header>
             <Card.Body>
 
             <table>

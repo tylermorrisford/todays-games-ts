@@ -42,7 +42,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                 let homeTeam: string = g.teams.home.team.name
                 let homeRec = g.teams.home.leagueRecord
                 let gameState: string = g.status.abstractGameState
-               return <Card className="mt-2 p-2" style={{fontSize: '1.3em'}} key={i}>
+               return <Card className="shadow-sm mt-2 p-2" style={{fontSize: '1.3em'}} key={i}>
                     <span style={{color:aScore>hScore ? 'green' : aScore<hScore ? 'grey' : 'black'}}>
                        {awayTeam} {(gameState === "Live" || gameState === "Final") ?  <>{aScore}</> 
                        : <>({awayRec.wins}-{awayRec.losses}{awayRec.ot ? '-'+awayRec.ot : ''})</>} 
