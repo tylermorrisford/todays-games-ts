@@ -20,7 +20,7 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
     }, [])
 
     return(
-        <div className="shadow" style={{border: '1px solid whitesmoke', borderRadius: '5px', padding: '10px'}}>
+        <div className="shadow-sm" style={{border: '1px solid whitesmoke', borderRadius: '5px', padding: '10px'}}>
             <p style={{fontSize: '1.5em'}}>League Standings (regular season)</p>
             <Table responsive borderless hover>
                 <thead>

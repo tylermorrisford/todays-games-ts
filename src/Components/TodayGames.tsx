@@ -42,6 +42,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                 let homeTeam: string = g.teams.home.team.name
                 let homeRec = g.teams.home.leagueRecord
                 let gameState: string = g.status.abstractGameState
+                console.log('gameState:', gameState)
+                // TODO: access all of this data from the linescore endpoint
                return <Card className="shadow-sm mt-2 p-2" style={{fontSize: '1.3em'}} key={i}>
                     <span style={{color:aScore>hScore ? 'green' : aScore<hScore ? 'grey' : 'black'}}>
                        {awayTeam} {(gameState === "Live" || gameState === "Final") ?  <>{aScore}</> 
