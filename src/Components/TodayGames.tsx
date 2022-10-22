@@ -13,6 +13,10 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     const [today, setToday] = React.useState('')
     const [noGames, setNoGames] = React.useState(false);
 
+    const getGameTime = (isoTime: Date) => {
+        return dayjs(isoTime).format('h:mm A')
+    }
+
     React.useEffect(() => {
         const searchToday: string = dayjs().format('YYYY-MM-DD')
         fetch(`https://statsapi.web.nhl.com/api/v1/schedule?startDate=${searchToday}`)
@@ -29,10 +33,10 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     return(
         <div>
             <p style={{fontSize: '2em', marginBottom: 0}}><img src={NHLLogo} width="45px" height="45px" alt="NHL Logo"/>
-                {" "}<strong>{today ? today : dayjs().format('dddd, MMMM D, YYYY')}</strong>
+                {" "}<strong>{today ? today : dayjs().format('dddd, MMM D, YYYY')}</strong>
             </p>
             <p className="text-center"><small style={{color: 'grey'}}>Today in the NHL - a dashboard for nerds</small></p>
-            <>{noGames ? <p>No games scheduled :/</p> : Object.keys(games).length > 0 ? 
+            <>{noGames ? <p>No games scheduled :/<br/>Go have a beer</p> : Object.keys(games).length > 0 ? 
             games.map( (g: any, i:number) => {
                 // api response is very, very nested
                 let awayTeam: string = g.teams.away.team.name
@@ -42,7 +46,9 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                 let homeTeam: string = g.teams.home.team.name
                 let homeRec = g.teams.home.leagueRecord
                 let gameState: string = g.status.abstractGameState
-                console.log('gameState:', gameState)
+                // console.log('gameState:', gameState)
+                console.log('game time formatted', dayjs(g.gameDate).format('h:mm A'));
+                
                 // TODO: access all of this data from the linescore endpoint
                return <Card className="shadow-sm mt-2 p-2" style={{fontSize: '1.3em'}} key={i}>
                     <span style={{color:aScore>hScore ? 'green' : aScore<hScore ? 'grey' : 'black'}}>
@@ -57,7 +63,10 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                                 {gameState === "Live" ? <GameStatus id={g.gamePk} /> : gameState}
                             </span>
                         </> 
-                        : <>({homeRec.wins}-{homeRec.losses}{homeRec.ot ? '-'+homeRec.ot : ''})</>}</span>
+                        : <>({homeRec.wins}-{homeRec.losses}{homeRec.ot ? '-'+homeRec.ot : ''})
+                        {gameState === 'Preview' && <span style={{float: 'right'}}>{getGameTime(g.gameDate)}</span>}
+                        </>
+                        }</span>
                    </Card>
             } )
             : <div>Loading game data...</div> 
