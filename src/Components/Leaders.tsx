@@ -20,7 +20,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
             fetch(`https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=${category}&season=${season}`)
                 .then(res => res.json())
                 .then((data: ResponseObject = {}) => {
-                    // console.log(`${category} leaders`, data)
+                    console.log(`${category} leaders`, data)
                     setLeaders(data.leagueLeaders[0].leaders)
                 })}
     }, [season, category])
@@ -54,8 +54,8 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({season, category}
                         return <tr key={i}>
                                 <td>{leader.person.fullName}, {getShortName(leader.team.name)}</td>
                                 <td>&nbsp;{" "}&nbsp;</td>
-                                <td>&nbsp;{" "}&nbsp;</td>
-                                <td>{leader.value}</td>
+                                {category !== "wins" && <td>&nbsp;{" "}&nbsp;</td>}
+                                <td>{category === "shootingPctg" ? parseInt(leader.value).toFixed(2) : leader.value}</td>
                                </tr> 
                     })}
                 </tbody>
