@@ -26,7 +26,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                 console.log('GAMES', data.dates[0].games);
                 console.log('FULL RES OBJECT', data);
                 setGames(data.dates[0].games)
-                setToday(dayjs(data.dates[0].date).format('dddd, MMMM D, YYYY'))
+                setToday(dayjs(data.dates[0].date).format('dddd, MMM D, YYYY'))
             })
     }, [])
  
@@ -46,8 +46,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                 let homeTeam: string = g.teams.home.team.name
                 let homeRec = g.teams.home.leagueRecord
                 let gameState: string = g.status.abstractGameState
-                // console.log('gameState:', gameState)
-                console.log('game time formatted', dayjs(g.gameDate).format('h:mm A'));
+                // console.log('game time formatted', dayjs(g.gameDate).format('h:mm A'));
                 
                 // TODO: access all of this data from the linescore endpoint
                return <Card className="shadow-sm mt-2 p-2" style={{fontSize: '1.3em'}} key={i}>

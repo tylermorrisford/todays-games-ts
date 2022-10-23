@@ -37,7 +37,7 @@ export default function App() {
           <TodayGames />
         </Col>
         <Col sm={12} md={{span: 6, offset: 1}} className="mt-3">
-          <Standings />
+          <Standings seasonString={season} />
         </Col>
       </Row>
       <hr />
