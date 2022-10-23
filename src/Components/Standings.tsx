@@ -39,7 +39,6 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
                     <tr>
                         <td>Rank</td>
                         <td>Team</td>
-                        <td>GP</td>
                         <td>Rec</td>
                         <td>ROW</td>
                         <td>Pts</td>
@@ -48,16 +47,20 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
                 <tbody>
                 {standings.map((conf: any, i: number) => {
                     return conf.teamRecords.map((rec: any, idx: number) => {
-                        return <tr key={idx + i}>
-                            <td>{rec.divisionRank}</td>
-                            <td style={{fontWeight: parseInt(rec.divisionRank) < 4 ? '900' : ''}}>
-                                {rec.team.name}{rec.clinchIndicator !== undefined ? <small>{" - "}{rec.clinchIndicator}</small> : ''}
-                            </td>
-                            <td>{rec.gamesPlayed}</td>
-                            <td>{getRecord(rec.leagueRecord)}</td>
-                            <td>{rec.row}</td>
-                            <td>{rec.points}</td>
+                        return <>
+                            {/* {idx === 0 && divisionNameRow()} */}
+                            {console.log('single record index', i)}
+                            <tr key={idx + i}>
+                                <td>{rec.divisionRank}</td>
+                                <td style={{fontWeight: parseInt(rec.divisionRank) < 4 ? '900' : ''}}>
+                                    {rec.team.name}{rec.clinchIndicator !== undefined ? <small>{" - "}{rec.clinchIndicator}</small> : ''}
+                                </td>
+                                <td>{getRecord(rec.leagueRecord)}</td>
+                                <td>{rec.row}</td>
+                                <td>{rec.points}</td>
                             </tr>
+                            {rec.divisionRank === "8" && i !== 3 && <tr><td><hr style={{padding: 0}}/></td></tr>}
+                            </>
                     })
                 })}
                 </tbody>
