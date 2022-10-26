@@ -4,6 +4,7 @@ A Typescript-based, API-first NHL fan dashboard, making use of [some amazing wor
 ## Install
 - Clone this repo
 - cd into cloned directory
+- `npm install` the dependencies
 - `npm run start`
 - Note: package.json includes a github pages deploy script that must be changed should you want to host this via github pages through your account. Info [here](https://github.com/gitname/react-gh-pages).
 
