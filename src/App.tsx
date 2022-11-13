@@ -16,6 +16,7 @@ export default function App() {
   const [season, setSeason] = React.useState('')
   const [copyright, setCopyright] = React.useState('')
 
+  const teefDev: string = 'https://teef.dev'
   const leaderCategories: Array<string> = ['goals', 'assists', 'points', 'shots', 'timeOnIcePerGame', 'faceOffPct', 'plusMinus', 'shootingPctg', 'hits', 'penaltyMinutes']
   const goaltenderCategories: Array<string> = ['wins', 'gaa', 'shutouts', 'savePct', 'losses', 'otLosses']
 
@@ -59,7 +60,7 @@ export default function App() {
       <Row>
         <Col className="mt-3" sm={12} md={{span: 6, offset: 3}}>
           <hr />
-          <small>{copyright}<br />Info about the developer is <a href="https://teef.dev">here</a>.</small>
+          <small>{copyright}<br />Info about the developer is <a href={teefDev}>here</a>.</small>
         </Col>
       </Row>
     </Container>

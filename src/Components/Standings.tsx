@@ -47,10 +47,8 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
                 <tbody>
                 {standings.map((conf: any, i: number) => {
                     return conf.teamRecords.map((rec: any, idx: number) => {
-                        return <>
-                            {/* {idx === 0 && divisionNameRow()} */}
-                            {console.log('single record index', i)}
-                            <tr key={idx + i}>
+                        return <React.Fragment key={rec.team.id}>
+                            <tr>
                                 <td>{rec.divisionRank}</td>
                                 <td style={{fontWeight: parseInt(rec.divisionRank) < 4 ? '900' : ''}}>
                                     {rec.team.name}{rec.clinchIndicator !== undefined ? <small>{" - "}{rec.clinchIndicator}</small> : ''}
@@ -60,7 +58,7 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
                                 <td>{rec.points}</td>
                             </tr>
                             {rec.divisionRank === "8" && i !== 3 && <tr><td><hr style={{padding: 0}}/></td></tr>}
-                            </>
+                            </React.Fragment>
                     })
                 })}
                 </tbody>
