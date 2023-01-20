@@ -56,7 +56,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
         <Card className="shadow" style={leaderStyle}>
           {" "}
           <Card.Header style={{ fontSize: "1.2em", backgroundColor: "white" }}>
-            <strong>{category} Leaders &rarr;</strong>
+            <strong>{category} Leaders</strong>
           </Card.Header>
           <Card.Body>
             <table>

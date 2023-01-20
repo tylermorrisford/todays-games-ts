@@ -33,7 +33,7 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
 
     return(
         <div className="shadow-sm" style={{border: '1px solid whitesmoke', borderRadius: '5px', padding: '10px'}}>
-            <p style={{fontSize: '1.5em'}}>Regular Season Standings {getSeason(seasonString)}</p>
+            <p style={{fontSize: '1.5em'}}>Standings {getSeason(seasonString)}</p>
             <Table responsive borderless hover>
                 <thead>
                     <tr>
