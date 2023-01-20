@@ -1,5 +1,6 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table'
+import trimName from '../Utils/trim'
 
 interface ResponseObject {
     [key: string]: any
@@ -19,13 +20,6 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
 
     const getSeason = (seasString: String): string => {
         return seasString.substring(0,4) + '-' + seasString.substring(4)
-    }
-
-    const trimName = (fullName: string): string => {
-        if (fullName === "Detroit Red Wings") return "Red Wings";
-        if (fullName === "Columbus Blue Jackets") return "Blue Jackets";
-        if (fullName === "St. Louis Blues") return "Blues";
-        return fullName.split(" ")[(fullName.split(" ").length - 1)]
     }
 
     React.useEffect(() => {

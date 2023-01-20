@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import Card from 'react-bootstrap/Card'
 import NHLLogo from '../Assets/NHL_Logo_former.svg'
 import { GameStatus } from './GameStatus'
+import trimName from '../Utils/trim'
 
 interface ResponseObject {
     [key: string]: any
@@ -16,14 +17,6 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     const getGameTime = (isoTime: Date): string => {
         return dayjs(isoTime).format('h:mm A')
     }
-
-    const trimName = (fullName: string): string => {
-        if (fullName === "Detroit Red Wings") return "Red Wings";
-        if (fullName === "Columbus Blue Jackets") return "Blue Jackets";
-        if (fullName === "St. Louis Blues") return "Blues";
-        return fullName.split(" ")[(fullName.split(" ").length - 1)]
-    }
-
 
     React.useEffect(() => {
         const searchToday: string = dayjs().format('YYYY-MM-DD')

@@ -1,5 +1,8 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import trimName from "../Utils/trim";
 // EXAMPLE of the leaders API - will return an empty response without category/season
 // https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=goals&season=20202021.
 
@@ -32,20 +35,12 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
     }
   }, [season, category]);
 
-  const getShortName = (name: string): string => {
-    if (name === "Detroit Red Wings") return "Detroit";
-    if (name === "Columbus Blue Jackets") return "Columbus";
-    if (name === "Toronto Maple Leafs") return "Toronto";
-    if (name === "Vegas Golden Knights") return "Vegas";
-    return name.substring(0, name.lastIndexOf(" "));
-  };
-
   const leaderStyle = {
     display: "inline-block",
     width: "365px",
     height: "215px",
     borderRadius: "5px",
-    padding: "4px 20px",
+    padding: "4px 5px",
     margin: "5px",
     textAlign: "left" as const,
   };
@@ -59,27 +54,21 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
             <strong>{category} Leaders</strong>
           </Card.Header>
           <Card.Body>
-            <table>
-              <tbody>
                 {leaders.map((leader: any, i: number) => {
                   return (
-                    <tr key={i}>
-                      <td>
+                    <Row key={i}>
+                      <Col sm={9} style={{paddingRight: 0}}>
                         {leader.person.fullName},{" "}
-                        {getShortName(leader.team.name)}
-                      </td>
-                      <td>&nbsp; &nbsp;</td>
-                      {(category !== "wins" && category !== "hits") && <td>&nbsp; &nbsp;</td>}
-                      <td>
+                        {trimName(leader.team.name)}
+                      </Col>
+                      <Col sm={3}>
                         {category === "shootingPctg"
                           ? Number.parseFloat(leader.value).toFixed(2)
                           : leader.value}
-                      </td>
-                    </tr>
+                      </Col>
+                    </Row>
                   );
                 })}
-              </tbody>
-            </table>
           </Card.Body>
         </Card>
       ) : (
