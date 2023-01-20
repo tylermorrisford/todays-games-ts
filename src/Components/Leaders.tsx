@@ -45,6 +45,10 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
     textAlign: "left" as const,
   };
 
+  const columnStyle = {
+    paddingRight: 0
+  }
+
   return (
     <>
       {leaders.length > 0 ? (
@@ -57,11 +61,11 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
                 {leaders.map((leader: any, i: number) => {
                   return (
                     <Row key={i}>
-                      <Col sm={9} style={{paddingRight: 0}}>
+                      <Col xs={9} sm={8} style={columnStyle}>
                         {leader.person.fullName},{" "}
                         {trimName(leader.team.name)}
                       </Col>
-                      <Col sm={3}>
+                      <Col xs={3} sm={4} style={columnStyle}>
                         {category === "shootingPctg"
                           ? Number.parseFloat(leader.value).toFixed(2)
                           : leader.value}
