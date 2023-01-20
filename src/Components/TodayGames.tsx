@@ -13,9 +13,17 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     const [today, setToday] = React.useState('')
     const [noGames, setNoGames] = React.useState(false);
 
-    const getGameTime = (isoTime: Date) => {
+    const getGameTime = (isoTime: Date): string => {
         return dayjs(isoTime).format('h:mm A')
     }
+
+    const trimName = (fullName: string): string => {
+        if (fullName.includes("Red") || fullName.includes("Blue")) {
+            return fullName.split(" ")[(fullName.split(" ").length - 2)] + ' ' + fullName.split(" ")[(fullName.split(" ").length - 1)]
+        }
+        return fullName.split(" ")[(fullName.split(" ").length - 1)]
+    }
+
 
     React.useEffect(() => {
         const searchToday: string = dayjs().format('YYYY-MM-DD')
@@ -51,12 +59,12 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                 // TODO: access all of this data from the linescore endpoint
                return <Card className="shadow-sm mt-2 p-2" style={{fontSize: '1.3em'}} key={i}>
                     <span style={{color:aScore>hScore ? 'green' : aScore<hScore ? 'grey' : 'black'}}>
-                       {awayTeam} {(gameState === "Live" || gameState === "Final") ?  <>{aScore}</> 
+                       {trimName(awayTeam)} {(gameState === "Live" || gameState === "Final") ?  <>{aScore}</> 
                        : <>({awayRec.wins}-{awayRec.losses}{awayRec.ot ? '-'+awayRec.ot : ''})</>} 
                     </span>
                    {/* {" "}<small>vs.</small>{" "}  */}
                     <span style={{color:hScore>aScore ? 'green' : hScore<aScore ? 'grey' : 'black'}}>
-                        {homeTeam} {(gameState === "Live" || gameState === "Final") ? 
+                        {trimName(homeTeam)} {(gameState === "Live" || gameState === "Final") ? 
                         <>{hScore}
                             <span style={{float: 'right', color: gameState === 'Live' ? 'green' : 'black'}}>
                                 {gameState === "Live" ? <GameStatus id={g.gamePk} /> : gameState}
