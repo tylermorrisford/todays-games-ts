@@ -34,7 +34,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                 console.log('GAMES', data.dates[0].games);
                 console.log('FULL RES OBJECT', data);
                 setGames(data.dates[0].games)
-                setToday(dayjs(data.dates[0].date).format('dddd, MMM D, YYYY'))
+                setToday(dayjs(data.dates[0].date).format('ddd, MMM D, YYYY'))
             })
     }, [])
  
