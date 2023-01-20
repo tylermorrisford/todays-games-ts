@@ -17,8 +17,15 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
         return <>{`${recObj.wins}-${recObj.losses}-${recObj.ot}`}</>
     }
 
-    const getSeason = (seasString: String) => {
+    const getSeason = (seasString: String): string => {
         return seasString.substring(0,4) + '-' + seasString.substring(4)
+    }
+
+    const trimName = (fullName: string): string => {
+        if (fullName.includes("Red") || fullName.includes("Blue")) {
+            return fullName.split(" ")[(fullName.split(" ").length - 2)] + ' ' + fullName.split(" ")[(fullName.split(" ").length - 1)]
+        }
+        return fullName.split(" ")[(fullName.split(" ").length - 1)]
     }
 
     React.useEffect(() => {
@@ -51,7 +58,7 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
                             <tr>
                                 <td>{rec.divisionRank}</td>
                                 <td style={{fontWeight: parseInt(rec.divisionRank) < 4 ? '900' : ''}}>
-                                    {rec.team.name}{rec.clinchIndicator !== undefined ? <small>{" - "}{rec.clinchIndicator}</small> : ''}
+                                    {window.innerWidth < 768 ? trimName(rec.team.name) : rec.team.name}{rec.clinchIndicator !== undefined ? <small>{" - "}{rec.clinchIndicator}</small> : ''}
                                 </td>
                                 <td>{getRecord(rec.leagueRecord)}</td>
                                 <td>{rec.row}</td>
