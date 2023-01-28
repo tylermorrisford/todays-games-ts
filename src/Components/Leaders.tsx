@@ -61,11 +61,11 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
                 {leaders.map((leader: any, i: number) => {
                   return (
                     <Row key={i}>
-                      <Col xs={9} sm={8} style={columnStyle}>
+                      <Col xs={9} sm={8} md={9} style={columnStyle}>
                         {leader.person.fullName},{" "}
                         {trimName(leader.team.name)}
                       </Col>
-                      <Col xs={3} sm={4} style={columnStyle}>
+                      <Col xs={3} sm={4} md={3} style={columnStyle}>
                         {category === "shootingPctg"
                           ? Number.parseFloat(leader.value).toFixed(2)
                           : leader.value}
