@@ -29,7 +29,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
       )
         .then((res) => res.json())
         .then((data: ResponseObject = {}) => {
-          console.log(`${category} leaders`, data);
+          // console.log(`${category} leaders`, data);
           setLeaders(data.leagueLeaders[0].leaders);
         });
     }
