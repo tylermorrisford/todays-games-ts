@@ -36,6 +36,11 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
     textAlign: 'left' as const,
   };
 
+  // optional style for top in each category
+  const topLeaderStyle = {
+    fontWeight: '600' as const,
+  };
+
   const columnStyle = {
     paddingRight: 0,
   };
@@ -50,9 +55,10 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
           </Card.Header>
           <Card.Body>
             {leaders.map((leader: Leader, i: number) => {
+              const style = i === 0 ? {...topLeaderStyle, ...columnStyle} : columnStyle;
               return (
                 <Row key={leader.person.fullName}>
-                  <Col xs={9} sm={8} md={9} style={columnStyle}>
+                  <Col xs={9} sm={8} md={9} style={style}>
                     {leader.person.fullName}, {trimName(leader.team.name)}
                   </Col>
                   <Col xs={3} sm={4} md={3} style={columnStyle}>
