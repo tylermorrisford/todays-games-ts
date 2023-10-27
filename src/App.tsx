@@ -6,29 +6,24 @@ import { Standings } from './Components/Standings'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-
-interface ResponseObject {
-  [key: string]: any
-}
+import { SeasonResponse } from './types';
+import { teefDev, leaderCategories, goaltenderCategories } from './constants'
 
 export default function App() {
 
-  const [season, setSeason] = React.useState('')
-  const [copyright, setCopyright] = React.useState('')
-
-  const teefDev: string = 'https://teef.dev'
-  const leaderCategories: Array<string> = ['goals', 'assists', 'points', 'shots', 'timeOnIcePerGame', 'faceOffPct', 'plusMinus', 'shootingPctg', 'hits', 'penaltyMinutes']
-  const goaltenderCategories: Array<string> = ['wins', 'gaa', 'shutouts', 'savePct', 'losses', 'otLosses']
+  const [season, setSeason] = React.useState<string>('')
+  const [copyright, setCopyright] = React.useState<string>('')
 
   React.useEffect(() => { // Grab season id on load
     fetch('https://statsapi.web.nhl.com/api/v1/seasons/current')
         .then(res => res.json())
-        .then((data: ResponseObject = {}) => {
+        .then((data: SeasonResponse) => {
             console.log('current season:', data)
             setSeason(data.seasons[0].seasonId)
             setCopyright(data.copyright)
         })
 }, [])
+
 
   return (
 
@@ -46,7 +41,7 @@ export default function App() {
         <h2 className='text-center'><strong>Stats Leaders</strong></h2>
         <Col sm={12} md={8}>
       <p style={{fontSize: '1.5em'}}><em><strong>Players</strong></em></p>
-      {leaderCategories.map((cat: string, i: number) => {
+      {leaderCategories.map((cat: string) => {
         return <Leaders season={season} category={cat} key={cat} />
       })}
         </Col>
@@ -58,7 +53,7 @@ export default function App() {
         </Col>
       </Row>
       <Row>
-        <Col className="mt-3" sm={12} md={{span: 6, offset: 3}}>
+        <Col className="mt-3 mb-5" sm={12} md={{span: 6, offset: 3}}>
           <hr />
           <small>{copyright}<br />Info about the developer is <a href={teefDev}>here</a>.</small>
         </Col>

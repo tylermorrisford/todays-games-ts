@@ -1,31 +1,18 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table'
+import { Record, StandingsResponse, SeasonProps } from '../types'
 import trimName from '../Utils/trim'
-
-interface ResponseObject {
-    [key: string]: any
-}
-
-interface SeasonProps {
-    seasonString: String
-}
+import { lastInDivision } from '../constants'
+import {getRecord, getSeason} from '../Utils/standings'
 
 export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}): JSX.Element => {
 
-    const [standings, setStandings] = React.useState([])
-
-    const getRecord = (recObj: Object | any) => {
-        return <>{`${recObj.wins}-${recObj.losses}-${recObj.ot}`}</>
-    }
-
-    const getSeason = (seasString: String): string => {
-        return seasString.substring(0,4) + '-' + seasString.substring(4)
-    }
+    const [standings, setStandings] = React.useState<Record[]>([])
 
     React.useEffect(() => {
         fetch('https://statsapi.web.nhl.com/api/v1/standings')
         .then(res => res.json())
-        .then((data: ResponseObject = {}) => {
+        .then((data: StandingsResponse) => {
             console.log('STANDINGS data.records', data.records);
             console.log('STANDINGS data', data);
             setStandings(data.records)
@@ -58,7 +45,7 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
                                 <td>{rec.row}</td>
                                 <td>{rec.points}</td>
                             </tr>
-                            {rec.divisionRank === "8" && i !== 3 && <tr><td><hr style={{padding: 0}}/></td></tr>}
+                            {rec.divisionRank === lastInDivision && i !== 3 && <tr><td><hr style={{padding: 0}}/></td></tr>}
                             </React.Fragment>
                     })
                 })}

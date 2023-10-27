@@ -1,10 +1,8 @@
 import React from 'react'
 import Spinner from 'react-bootstrap/Spinner'
+import { GameIdProps } from '../types'
 
-interface GameIdProps {
-    id: number,
-}
-
+// TODO: type this response object
 interface ResponseObject {
     [key: string]: any
 }
@@ -19,6 +17,7 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({id}): JSX.Elem
             fetch(`https://statsapi.web.nhl.com/api/v1/game/${id}/linescore`)
                 .then(res => res.json())
                 .then((data: ResponseObject = {}) => {
+                    console.log('LINESCORE', data);
                     // right now we're only using this to get current period and time remaining in the period
                     setPeriod(data.currentPeriodOrdinal)
                     setRemaining(data.currentPeriodTimeRemaining)

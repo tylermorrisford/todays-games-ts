@@ -5,33 +5,22 @@ import Button from 'react-bootstrap/Button'
 import NHLLogo from '../Assets/NHL_Logo_former.svg'
 import { GameStatus } from './GameStatus'
 import LoadingGames from './LoadingGames'
+import { Game, TeamRecord, TodayResponse } from '../types'
 import trimName from '../Utils/trim'
 
-// TODO: update requests and responses to use the new API!
-// https://gitlab.com/dword4/nhlapi/-/blob/master/new-api.md
-
-interface ResponseObject {
-    [key: string]: any
-}
-
-interface teamRecord {
-    wins: number,
-    losses: number,
-    ot: number
-}
-
+// TODO: Using the new API will require a proxy server to avoid CORS issues
 export const TodayGames: React.FunctionComponent = (): JSX.Element => {
-    const [games, setGames] = React.useState([])
-    const [loading, setLoading] = React.useState(false)
-    const [today, setToday] = React.useState('')
-    const [searchDate, setSearchDate] = React.useState('')
-    const [noGames, setNoGames] = React.useState(false);
+    const [games, setGames] = React.useState<Game[]>([])
+    const [loading, setLoading] = React.useState<boolean>(false)
+    const [today, setToday] = React.useState<string>('')
+    const [searchDate, setSearchDate] = React.useState<string>('')
+    const [noGames, setNoGames] = React.useState<boolean>(false);
 
     const getGameTime = (isoTime: Date): string => {
         return dayjs(isoTime).format('h:mm A')
     }
 
-    const currentDate = React.useRef(dayjs().format('YYYY-MM-DD'));
+    const currentDate = React.useRef<string>(dayjs().format('YYYY-MM-DD'));
 
     const nextDay = (): void => {
         currentDate.current = dayjs(currentDate.current).add(1, 'day').format('YYYY-MM-DD');
@@ -48,10 +37,10 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
         setLoading(true)
         fetch(`https://statsapi.web.nhl.com/api/v1/schedule?date=${gameDate}`)
             .then(res => res.json())
-            .then((data: ResponseObject = {}) => {
+            .then((data: TodayResponse) => {
                 if (data.totalGames === 0) {return setNoGames(true)}
                 // console.log('GAMES', data.dates[0].games);
-                // console.log('FULL RES OBJECT', data);
+                console.log('TodayResponse', data);
                 setGames(data.dates[0].games)
                 setNoGames(false)
                 setToday(dayjs(data.dates[0].date).format('ddd, MMM D, YYYY'))
@@ -67,6 +56,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
         width: '40%',
         backgroundColor: 'white',
     }
+
+    if (!loading && noGames) return <p>No games scheduled :/<br/>Go have a beer</p>;
  
     return(
         <div>
@@ -80,14 +71,14 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
             </div>
             <>{noGames ? <p>No games scheduled :/<br/>Go have a beer</p> : Object.keys(games).length > 0 ? <>
             {loading ? <LoadingGames /> :
-                games.map( (g: any, i:number) => {
-                // api response is very, very nested
+                games.map( (g: Game, i:number) => {
+                // renaming for readability
                 let awayTeam: string = g.teams.away.team.name
-                let awayRec: teamRecord = g.teams.away.leagueRecord
+                let awayRec: TeamRecord = g.teams.away.leagueRecord
                 let aScore: number = g.teams.away.score
                 let hScore: number = g.teams.home.score
                 let homeTeam: string = g.teams.home.team.name
-                let homeRec: teamRecord = g.teams.home.leagueRecord
+                let homeRec: TeamRecord = g.teams.home.leagueRecord
                 let gameState: string = g.status.abstractGameState
                 
                 // TODO: access all of this data from the linescore endpoint
