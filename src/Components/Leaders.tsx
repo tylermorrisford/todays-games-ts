@@ -36,7 +36,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
     textAlign: 'left' as const,
   };
 
-  // optional style for top in each category
+  // conditional style for top in each category
   const topLeaderStyle = {
     fontWeight: '600' as const,
   };
@@ -55,7 +55,8 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
           </Card.Header>
           <Card.Body>
             {leaders.map((leader: Leader, i: number) => {
-              const style = i === 0 ? {...topLeaderStyle, ...columnStyle} : columnStyle;
+              const style =
+                i === 0 ? { ...topLeaderStyle, ...columnStyle } : columnStyle;
               return (
                 <Row key={leader.person.fullName}>
                   <Col xs={9} sm={8} md={9} style={style}>
