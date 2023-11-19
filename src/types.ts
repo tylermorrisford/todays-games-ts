@@ -134,3 +134,8 @@ export type TodayResponse = {
   totalMatches: number;
   wait: number;
 };
+
+export type LogoImageProps = {
+  team: string;
+  url: string;
+};

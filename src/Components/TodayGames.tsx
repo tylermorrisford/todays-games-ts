@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import NHLLogo from '../Assets/NHL_Logo_former.svg';
 import { GameStatus } from './GameStatus';
 import LoadingGames from './LoadingGames';
-import { Game, TeamRecord, TodayResponse } from '../types';
+import { Game, TeamRecord, TodayResponse, LogoImageProps } from '../types';
 import trimName from '../Utils/trim';
 
 // TODO: Using the new API will require a proxy server to avoid CORS issues
@@ -13,7 +13,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   const [games, setGames] = React.useState<Game[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [today, setToday] = React.useState<string>('');
-  const [searchDate, setSearchDate] = React.useState<string>('');
+  const [searchDate, setSearchDate] = React.useState<string>('now');
+  const [statusDate, setStatusDate] = React.useState<string>('');
   const [noGames, setNoGames] = React.useState<boolean>(false);
 
   const getGameTime = (isoTime: Date): string => {
@@ -36,20 +37,25 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     setSearchDate(currentDate.current);
   };
 
+  //  schedule endpoint https://api-web.nhle.com/v1/schedule/now
   React.useEffect(() => {
     let gameDate: string = searchDate ? searchDate : currentDate.current;
     setLoading(true);
-    fetch(`https://statsapi.web.nhl.com/api/v1/schedule?date=${gameDate}`)
+    fetch(`http://164.90.150.60:4000/api/schedule/${gameDate}`, {
+      headers: { Authorization: 'hello' },
+    })
       .then((res) => res.json())
-      .then((data: TodayResponse) => {
-        if (data.totalGames === 0) {
+      .then((data) => {
+        if (data.gameWeek[0].numberOfGames === 0) {
+          setToday(dayjs(data.gameWeek[0].date).format('ddd, MMM D, YYYY'));
+          setLoading(false);
           return setNoGames(true);
         }
-        // console.log('GAMES', data.dates[0].games);
-        console.log('TodayResponse', data);
-        setGames(data.dates[0].games);
+        console.log('GAMES', data.gameWeek[0].games);
+        setGames(data.gameWeek[0].games);
         setNoGames(false);
-        setToday(dayjs(data.dates[0].date).format('ddd, MMM D, YYYY'));
+        setToday(dayjs(data.gameWeek[0].date).format('ddd, MMM D, YYYY'));
+        setStatusDate(data.gameWeek[0].date)
         setLoading(false);
       });
   }, [searchDate]);
@@ -63,6 +69,13 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     backgroundColor: 'white',
   };
 
+  // TODO move these to helpers 
+  const LogoImage = ({ url, team }: LogoImageProps): JSX.Element => {
+    return <img src={url} alt={`${team}_logo`} width='40px' height='40px' />;
+  };
+
+
+
   return (
     <div>
       <p style={{ fontSize: '2em', marginBottom: 0 }}>
@@ -74,9 +87,10 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
           NHL Snapshot - a dashboard for nerds
         </small>
         <small style={{ color: 'grey' }}>
-         <br /> <em>NOTE:</em> The NHL recently shut down the API used for this app. <br />
-            The new API they've created is a touch harder to use but <br/>
-            I'm working on the fix now. 
+          <br /> <em>NOTE:</em> The NHL recently shut down the API used for this
+          app. <br />
+          The new API they've created is a touch harder to use but <br />
+          I'm working on the fix now.
         </small>
       </p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -107,17 +121,20 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
             {loading ? (
               <LoadingGames />
             ) : (
-              games.map((g: Game, i: number) => {
+              games.map((g: any, i: number) => {
                 // renaming for readability
-                let awayTeam: string = g.teams.away.team.name;
-                let awayRec: TeamRecord = g.teams.away.leagueRecord;
-                let aScore: number = g.teams.away.score;
-                let hScore: number = g.teams.home.score;
-                let homeTeam: string = g.teams.home.team.name;
-                let homeRec: TeamRecord = g.teams.home.leagueRecord;
-                let gameState: string = g.status.abstractGameState;
+                // use radio link!
+                let awayTeam: string = g.awayTeam.abbrev;
+                let awayLogo: string = g.awayTeam.logo;
+                let homeTeam: string = g.homeTeam.abbrev;
+                let homeLogo: string = g.homeTeam.logo;
+                let aScore: number = g.awayTeam.score;
+                let hScore: number = g.homeTeam.score;
+                // let awayRec: TeamRecord = g.teams.away.leagueRecord;
+                // let homeRec: TeamRecord = g.teams.home.leagueRecord;
+                let gameState: string = g.gameState;
 
-                // TODO: access all of this data from the linescore endpoint
+                // TODO: fix team records
                 return (
                   <Card
                     className='shadow-sm mt-2 p-2'
@@ -134,13 +151,17 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                             : 'black',
                       }}
                     >
+                      <LogoImage team={awayTeam} url={awayLogo} />
                       {trimName(awayTeam)}{' '}
-                      {gameState === 'Live' || gameState === 'Final' ? (
+                      {gameState === 'LIVE' ||
+                      gameState === 'FINAL' ||
+                      gameState === 'OFF' ||
+                      gameState === 'CRIT' ? (
                         <>{aScore}</>
                       ) : (
                         <>
-                          ({awayRec.wins}-{awayRec.losses}
-                          {awayRec.ot !== 0 && '-' + awayRec.ot})
+                          {/* ({awayRec.wins}-{awayRec.losses}
+                          {awayRec.ot !== 0 && '-' + awayRec.ot}) */}
                         </>
                       )}
                     </span>
@@ -154,30 +175,35 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                             : 'black',
                       }}
                     >
+                      <LogoImage team={homeTeam} url={homeLogo} />
                       {trimName(homeTeam)}{' '}
-                      {gameState === 'Live' || gameState === 'Final' ? (
+                      {gameState === 'LIVE' ||
+                      gameState === 'FINAL' ||
+                      gameState === 'OFF' ||
+                      gameState === 'CRIT' ? (
                         <>
                           {hScore}
                           <span
                             style={{
                               float: 'right',
-                              color: gameState === 'Live' ? 'green' : 'black',
                             }}
                           >
-                            {gameState === 'Live' ? (
-                              <GameStatus id={g.gamePk} />
-                            ) : (
-                              gameState
-                            )}
+                            {gameState === 'LIVE' || gameState === 'CRIT' ? (
+                              <span>
+                                <GameStatus id={g.id} />
+                              </span>
+                            ) : gameState === "FINAL" || gameState === "OFF" ? (
+                              <span>Final</span>
+                            ) : ''}
                           </span>
                         </>
                       ) : (
                         <>
-                          ({homeRec.wins}-{homeRec.losses}
-                          {homeRec.ot ? '-' + homeRec.ot : ''})
-                          {gameState === 'Preview' && (
+                          {/* ({homeRec.wins}-{homeRec.losses}
+                          {homeRec.ot ? '-' + homeRec.ot : ''}) */}
+                          {(gameState === 'PRE' || gameState === 'FUT') && (
                             <span style={{ float: 'right' }}>
-                              {getGameTime(g.gameDate)}
+                              {getGameTime(g.startTimeUTC)}
                             </span>
                           )}
                         </>
