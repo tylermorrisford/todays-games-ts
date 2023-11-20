@@ -19,7 +19,7 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
   React.useEffect(() => {
     if (id !== undefined) {
         // 164.90.150.60:4000
-      fetch(`http://164.90.150.60:4000/api/gamecenter/${id}/boxscore`, {
+      fetch(`164.90.150.60:4000/api/gamecenter/${id}/boxscore`, {
         headers: { Authorization: 'hello' },
       })
         .then((res) => res.json())
@@ -33,15 +33,15 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
     }
   }, [id]);
 
-  return (
-    <Badge bg={running ? 'success' : ''}>
-      {remaining ? (
+  if (remaining === '') {
+    return <Spinner animation='grow' variant='success' size='sm' />
+  }
+
+  return (  
+    <Badge bg={running ? 'success' : 'secondary'}>
         <span>
-          {remaining} - {getPeriod(period)}
+          {remaining} - {running ? getPeriod(period): 'INT' }
         </span>
-      ) : (
-        <Spinner animation='grow' variant='success' size='sm' />
-      )}
-    </Badge>
+        </Badge>
   );
 };

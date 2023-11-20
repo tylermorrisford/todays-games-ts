@@ -41,7 +41,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   React.useEffect(() => {
     let gameDate: string = searchDate ? searchDate : currentDate.current;
     setLoading(true);
-    fetch(`http://164.90.150.60:4000/api/schedule/${gameDate}`, {
+    fetch(`164.90.150.60:4000/api/schedule/${gameDate}`, {
       headers: { Authorization: 'hello' },
     })
       .then((res) => res.json())
@@ -152,7 +152,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                       }}
                     >
                       <LogoImage team={awayTeam} url={awayLogo} />
-                      {trimName(awayTeam)}{' '}
+                      {awayTeam}{' '}
                       {gameState === 'LIVE' ||
                       gameState === 'FINAL' ||
                       gameState === 'OFF' ||
@@ -176,7 +176,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                       }}
                     >
                       <LogoImage team={homeTeam} url={homeLogo} />
-                      {trimName(homeTeam)}{' '}
+                      {homeTeam}{' '}
                       {gameState === 'LIVE' ||
                       gameState === 'FINAL' ||
                       gameState === 'OFF' ||
