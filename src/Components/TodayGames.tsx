@@ -13,8 +13,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   const [games, setGames] = React.useState<Game[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [today, setToday] = React.useState<string>('');
-  const [searchDate, setSearchDate] = React.useState<string>('now');
-  const [statusDate, setStatusDate] = React.useState<string>('');
+  const [searchDate, setSearchDate] = React.useState<string>(dayjs().format('YYYY-MM-DD'));
   const [noGames, setNoGames] = React.useState<boolean>(false);
 
   const getGameTime = (isoTime: Date): string => {
@@ -41,7 +40,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   React.useEffect(() => {
     let gameDate: string = searchDate ? searchDate : currentDate.current;
     setLoading(true);
-    fetch(`164.90.150.60:4000/api/schedule/${gameDate}`, {
+    fetch(`https://quick-proxy-jkopwlor5-tylermorrisford.vercel.app/api/schedule/${gameDate}`, {
       headers: { Authorization: 'hello' },
     })
       .then((res) => res.json())
@@ -55,7 +54,6 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
         setGames(data.gameWeek[0].games);
         setNoGames(false);
         setToday(dayjs(data.gameWeek[0].date).format('ddd, MMM D, YYYY'));
-        setStatusDate(data.gameWeek[0].date)
         setLoading(false);
       });
   }, [searchDate]);

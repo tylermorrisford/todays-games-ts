@@ -19,7 +19,7 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
   React.useEffect(() => {
     if (id !== undefined) {
         // 164.90.150.60:4000
-      fetch(`164.90.150.60:4000/api/gamecenter/${id}/boxscore`, {
+      fetch(`https://quick-proxy-jkopwlor5-tylermorrisford.vercel.app/api/gamecenter/${id}/boxscore`, {
         headers: { Authorization: 'hello' },
       })
         .then((res) => res.json())
