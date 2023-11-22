@@ -40,9 +40,13 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   React.useEffect(() => {
     let gameDate: string = searchDate ? searchDate : currentDate.current;
     setLoading(true);
-    fetch(`https://quick-proxy-jkopwlor5-tylermorrisford.vercel.app/api/schedule/${gameDate}`, {
-      headers: { Authorization: 'hello' },
-    })
+    fetch('http://localhost:4000/schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ date: gameDate }),
+      })
       .then((res) => res.json())
       .then((data) => {
         if (data.gameWeek[0].numberOfGames === 0) {

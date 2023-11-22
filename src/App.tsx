@@ -18,25 +18,25 @@ export default function App() {
           <TodayGames />
         </Col>
         <Col sm={12} md={{span: 6, offset: 1}} className="mt-3">
-          {/* <Standings seasonString={season} /> */}
+          <Standings />
         </Col>
       </Row>
       <hr />
-      <Row>
+      {/* <Row>
         <h2 className='text-center'><strong>Stats Leaders</strong></h2>
         <Col sm={12} md={8}>
       <p style={{fontSize: '1.5em'}}><em><strong>Players</strong></em></p>
       {/* {leaderCategories.map((cat: string) => {
         return <Leaders season={season} category={cat} key={cat} />
       })} */}
-        </Col>
+        {/* </Col>
         <Col sm={12} md={4}>
-        <p style={{fontSize: '1.5em'}}><em><strong>Goaltenders</strong></em></p>
+        <p style={{fontSize: '1.5em'}}><em><strong>Goaltenders</strong></em></p> */}
           {/* {goaltenderCategories.map((cat: string) => {
             return <Leaders season={season} category={cat} key={cat} />
           })} */}
-        </Col>
-      </Row>
+        {/* </Col>
+      </Row> */}
       <Row>
         <Col className="mt-3 mb-5" sm={12} md={{span: 6, offset: 3}}>
           <hr />

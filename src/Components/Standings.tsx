@@ -5,14 +5,14 @@ import trimName from '../Utils/trim'
 import { lastInDivision } from '../constants'
 import {getRecord, getSeason} from '../Utils/standings'
 
-export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}): JSX.Element => {
+export const Standings: React.FunctionComponent = (): JSX.Element => {
 
     const [standings, setStandings] = React.useState<Record[]>([])
 
     React.useEffect(() => {
-        fetch('https://statsapi.web.nhl.com/api/v1/standings')
+        fetch('http://localhost:4000/standings')
         .then(res => res.json())
-        .then((data: StandingsResponse) => {
+        .then((data: any) => {
             console.log('STANDINGS data.records', data.records);
             console.log('STANDINGS data', data);
             setStandings(data.records)
@@ -21,7 +21,7 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
 
     return(
         <div className="shadow-sm" style={{border: '1px solid whitesmoke', borderRadius: '5px', padding: '10px'}}>
-            <p style={{fontSize: '1.5em'}}>Standings {getSeason(seasonString)}</p>
+            <p style={{fontSize: '1.5em'}}>Standings</p>
             <Table responsive borderless hover>
                 <thead>
                     <tr>
@@ -33,7 +33,7 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
                     </tr>
                 </thead>
                 <tbody>
-                {standings.map((conf: any, i: number) => {
+                {/* {standings.map((conf: any, i: number) => {
                     return conf.teamRecords.map((rec: any, idx: number) => {
                         return <React.Fragment key={rec.team.id}>
                             <tr>
@@ -48,7 +48,7 @@ export const Standings: React.FunctionComponent<SeasonProps> = ({seasonString}):
                             {rec.divisionRank === lastInDivision && i !== 3 && <tr><td><hr style={{padding: 0}}/></td></tr>}
                             </React.Fragment>
                     })
-                })}
+                })} */}
                 </tbody>
             </Table>
         </div>
