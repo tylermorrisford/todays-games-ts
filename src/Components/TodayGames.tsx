@@ -6,7 +6,7 @@ import NHLLogo from '../Assets/NHL_Logo_former.svg';
 import { GameStatus } from './GameStatus';
 import LoadingGames from './LoadingGames';
 import { Game, TeamRecord, TodayResponse, LogoImageProps } from '../types';
-import trimName from '../Utils/trim';
+import { getEndpoint } from '../Utils/urls';
 
 // TODO: Using the new API will require a proxy server to avoid CORS issues
 export const TodayGames: React.FunctionComponent = (): JSX.Element => {
@@ -40,7 +40,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   React.useEffect(() => {
     let gameDate: string = searchDate ? searchDate : currentDate.current;
     setLoading(true);
-    fetch('http://localhost:4000/schedule', {
+    fetch(getEndpoint('/api/schedule'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

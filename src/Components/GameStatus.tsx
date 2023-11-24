@@ -3,6 +3,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Badge from 'react-bootstrap/Badge';
 import { GameIdProps } from '../types';
 import { getPeriod } from '../Utils/period';
+import { getEndpoint } from '../Utils/urls';
 
 // TODO: type this response object
 interface ResponseObject {
@@ -18,9 +19,12 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
 
   React.useEffect(() => {
     if (id !== undefined) {
-        // 164.90.150.60:4000
-      fetch(`https://quick-proxy-jkopwlor5-tylermorrisford.vercel.app/api/gamecenter/${id}/boxscore`, {
-        headers: { Authorization: 'hello' },
+      fetch(getEndpoint(`/api/gamecenter`), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: id }),
       })
         .then((res) => res.json())
         .then((data: ResponseObject = {}) => {

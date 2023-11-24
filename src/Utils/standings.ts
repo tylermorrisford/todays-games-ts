@@ -1,5 +1,5 @@
 export const getRecord = (recObj: Object | any): string => {
-        return `${recObj.wins}-${recObj.losses}-${recObj.ot}`
+        return `${recObj.wins}-${recObj.losses}-${recObj.otLosses}`
     }
 
 export const getSeason = (seasString: String): string => {

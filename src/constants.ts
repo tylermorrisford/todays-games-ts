@@ -1,4 +1,5 @@
 export const teefDev: string = 'https://teef.dev';
+export const BASE_URL: string = 'https://statproxy.us:4000';
 export const leaderCategories: Array<string> = [
   'goals',
   'assists',
