@@ -1,8 +1,7 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import { Record, StandingsResponse, SeasonProps } from '../types';
-import { getRecord } from '../Utils/standings';
-import { getEndpoint } from '../Utils/urls';
+import { getEndpoint, getRecord } from '../Utils/helpers';
 import { StandingsLogoImage } from './LogoImage';
 
 export const Standings: React.FunctionComponent = (): JSX.Element => {
@@ -39,9 +38,9 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
           </tr>
         </thead>
         <tbody>
-          {standings.map((record) => {
+          {standings.map((record, idx) => {
             return (
-              <tr key={record.placeName.default}>
+              <tr key={record.placeName.default + idx}>
                 <td>{record.leagueSequence}</td>
                 <td>
                   <span>

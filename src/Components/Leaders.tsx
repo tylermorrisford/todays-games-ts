@@ -3,7 +3,6 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Leader, LeaderResponse, LeaderProps } from '../types';
-import trimName from '../Utils/trim';
 // EXAMPLE of the leaders API - will return an empty response without category/season
 // https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=goals&season=20202021.
 
@@ -60,7 +59,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
               return (
                 <Row key={leader.person.fullName}>
                   <Col xs={9} sm={8} md={9} style={style}>
-                    {leader.person.fullName}, {trimName(leader.team.name)}
+                    {leader.person.fullName}, {leader.team.name}
                   </Col>
                   <Col xs={3} sm={4} md={3} style={columnStyle}>
                     {category === 'shootingPctg'

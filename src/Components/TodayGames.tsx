@@ -6,7 +6,8 @@ import NHLLogo from '../Assets/NHL_Logo_former.svg';
 import { GameStatus } from './GameStatus';
 import LoadingGames from './LoadingGames';
 import { Game, TeamRecord, TodayResponse, LogoImageProps } from '../types';
-import { getEndpoint } from '../Utils/urls';
+import { getEndpoint } from '../Utils/helpers';
+import { LogoImage } from './LogoImage';
 
 export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   const [games, setGames] = React.useState<Game[]>([]);
@@ -69,13 +70,6 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     backgroundColor: 'white',
   };
 
-  // TODO move these to helpers 
-  const LogoImage = ({ url, team }: LogoImageProps): JSX.Element => {
-    return <img src={url} alt={`${team}_logo`} width='40px' height='40px' />;
-  };
-
-
-
   return (
     <div>
       <p style={{ fontSize: '2em', marginBottom: 0 }}>
@@ -87,7 +81,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
           NHL Snapshot - a dashboard for nerds
         </small>
         <small style={{ color: 'grey' }}>
-          <br /> <em>NOTE:</em> This application is seeng updates to handle the NHL's new API.
+          <br /><em>NOTE:</em> This application is seeing updates to handle the NHL's new API.
         </small>
       </p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>

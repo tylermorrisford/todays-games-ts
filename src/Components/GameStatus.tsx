@@ -2,8 +2,7 @@ import React from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Badge from 'react-bootstrap/Badge';
 import { GameIdProps } from '../types';
-import { getPeriod } from '../Utils/period';
-import { getEndpoint } from '../Utils/urls';
+import { getPeriod, getEndpoint } from '../Utils/helpers';
 
 // TODO: type this response object
 interface ResponseObject {
@@ -16,6 +15,7 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
   const [period, setPeriod] = React.useState<number>(0);
   const [remaining, setRemaining] = React.useState<string>('');
   const [running, setRunning] = React.useState<boolean>(false);
+  const [inIntermission, setIntermission] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     if (id !== undefined) {
@@ -28,10 +28,11 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
       })
         .then((res) => res.json())
         .then((data: ResponseObject = {}) => {
-          console.log('\n\nGame score data:', data);
+          console.log('\nGame score data:', data);
           setPeriod(data.period);
           setRemaining(data.clock.timeRemaining);
           setRunning(data.clock.running);
+          setIntermission(data.clock.inIntermission);
         })
         .catch((err) => console.log('status component error: ', err));
     }
@@ -44,7 +45,7 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
   return (  
     <Badge bg={running ? 'success' : 'secondary'}>
         <span>
-          {remaining} - {running ? getPeriod(period): 'INT' }
+          {remaining} - {inIntermission ? 'Int' : getPeriod(period) }
         </span>
         </Badge>
   );
