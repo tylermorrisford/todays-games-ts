@@ -8,7 +8,6 @@ import LoadingGames from './LoadingGames';
 import { Game, TeamRecord, TodayResponse, LogoImageProps } from '../types';
 import { getEndpoint } from '../Utils/urls';
 
-// TODO: Using the new API will require a proxy server to avoid CORS issues
 export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   const [games, setGames] = React.useState<Game[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -54,7 +53,6 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
           setLoading(false);
           return setNoGames(true);
         }
-        console.log('GAMES', data.gameWeek[0].games);
         setGames(data.gameWeek[0].games);
         setNoGames(false);
         setToday(dayjs(data.gameWeek[0].date).format('ddd, MMM D, YYYY'));
@@ -89,10 +87,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
           NHL Snapshot - a dashboard for nerds
         </small>
         <small style={{ color: 'grey' }}>
-          <br /> <em>NOTE:</em> The NHL recently shut down the API used for this
-          app. <br />
-          The new API they've created is a touch harder to use but <br />
-          I'm working on the fix now.
+          <br /> <em>NOTE:</em> This application is seeng updates to handle the NHL's new API.
         </small>
       </p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
