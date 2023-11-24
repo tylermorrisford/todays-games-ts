@@ -49,7 +49,7 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
                       url={record.teamLogo}
                       team={record.teamName}
                     />{' '}
-                    {record.placeName.default}
+                    {record.teamAbbrev.default}
                   </span>
                 </td>
                 <td>{getRecord(record)}</td>
