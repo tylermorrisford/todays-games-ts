@@ -43,7 +43,7 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
   }
 
   return (  
-    <Badge bg={running ? 'success' : 'secondary'}>
+    <Badge bg={running ? 'success' : inIntermission ? 'warning' : 'light' } text={(!running && !inIntermission) ? 'dark' : 'light'}>
         <span>
           {remaining} - {inIntermission ? 'Int' : getPeriod(period) }
         </span>

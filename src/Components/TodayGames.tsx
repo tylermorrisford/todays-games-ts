@@ -55,6 +55,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
           return setNoGames(true);
         }
         setGames(data.gameWeek[0].games);
+        console.log(data.gameWeek[0].games);
         setNoGames(false);
         setToday(dayjs(data.gameWeek[0].date).format('ddd, MMM D, YYYY'));
         setLoading(false);
