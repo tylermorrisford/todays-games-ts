@@ -5,21 +5,21 @@ import { Record, StandingsResponse, SeasonProps } from '../types';
 import { getEndpoint, getRecord } from '../Utils/helpers';
 import { StandingsLogoImage } from './LogoImage';
 import _ from 'lodash';
+import dayjs from 'dayjs';
 
 export const Standings: React.FunctionComponent = (): JSX.Element => {
   const [leagueStandings, setLeagueStandings] = React.useState<any[]>([]);
   const [conferenceStandings, setConferenceStandings] = React.useState<any[]>([]);
   const [divisionStandings, setDivisionStandings] = React.useState<any[]>([]);
-  const [displayGroup, setDisplayGroup] = React.useState<'division' | 'conference' | 'league'>('division');
-  const [standingsDate, setStandingsDate] = React.useState<string>('');
+  const [displayGroup, setDisplayGroup] = React.useState<'Division' | 'Conference' | 'League'>('Division');
 
   const getDisplayStandings = (displayString: string) => {
     switch (displayString) {
-      case 'division':
+      case 'Division':
         return divisionStandings;
-      case 'conference':
+      case 'Conference':
         return conferenceStandings;
-      case 'league':
+      case 'League':
         return leagueStandings;
       default:
         return divisionStandings;
@@ -28,11 +28,11 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
 
   const getRank = (record: any): number => {
     switch(displayGroup) {
-      case 'division':
+      case 'Division':
         return record.divisionSequence;
-      case 'conference':
+      case 'Conference':
         return record.conferenceSequence;
-      case 'league':
+      case 'League':
         return record.leagueSequence;
       default:
         return record.divisionSequence;
@@ -45,7 +45,6 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
       .then((data: any) => {
         console.log('standings data', data);
         setLeagueStandings(data?.standings);
-        setStandingsDate(data?.standings[0].date);
         setConferenceStandings(_.sortBy(data?.standings, ['conferenceName','conferenceSequence']));
         setDivisionStandings(_.sortBy(data?.standings, ['conferenceName','divisionName','divisionSequence']));
       });
@@ -60,11 +59,11 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
         padding: '10px',
       }}
     >
-      <p style={{ fontSize: '1.5em' }}>Standings as of {standingsDate}</p>
+      <p style={{ fontSize: '1.5em' }}>{displayGroup} Standings as of {dayjs().format('MM/DD/YY')}</p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span><Button onClick={() => setDisplayGroup('division')} size="sm" variant="outline-dark">Division</Button></span>
-        <span><Button onClick={() => setDisplayGroup('conference')} size="sm" variant="outline-dark">Conference</Button></span>
-        <span><Button onClick={() => setDisplayGroup('league')} size="sm" variant="outline-dark">League</Button></span>
+        <span><Button onClick={() => setDisplayGroup('Division')} size="sm" variant="outline-dark">Division</Button></span>
+        <span><Button onClick={() => setDisplayGroup('Conference')} size="sm" variant="outline-dark">Conference</Button></span>
+        <span><Button onClick={() => setDisplayGroup('League')} size="sm" variant="outline-dark">League</Button></span>
       </div>
       <Table responsive borderless hover>
         <thead>
