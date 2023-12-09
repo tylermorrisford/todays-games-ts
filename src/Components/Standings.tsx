@@ -5,7 +5,6 @@ import { Record, StandingsResponse, SeasonProps } from '../types';
 import { getEndpoint, getRecord } from '../Utils/helpers';
 import { StandingsLogoImage } from './LogoImage';
 import _ from 'lodash';
-import dayjs from 'dayjs';
 
 export const Standings: React.FunctionComponent = (): JSX.Element => {
   const [leagueStandings, setLeagueStandings] = React.useState<any[]>([]);
@@ -59,11 +58,11 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
         padding: '10px',
       }}
     >
-      <p style={{ fontSize: '1.5em' }}>{displayGroup} Standings - {dayjs().format('MM/DD/YY')}</p>
+      <h3>{displayGroup} Standings</h3>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span><Button onClick={() => setDisplayGroup('Division')} size="sm" variant="outline-dark">Division</Button></span>
-        <span><Button onClick={() => setDisplayGroup('Conference')} size="sm" variant="outline-dark">Conference</Button></span>
-        <span><Button onClick={() => setDisplayGroup('League')} size="sm" variant="outline-dark">League</Button></span>
+        <Button onClick={() => setDisplayGroup('Division')} size="sm" variant="outline-dark">Division</Button>
+        <Button onClick={() => setDisplayGroup('Conference')} size="sm" variant="outline-dark">Conference</Button>
+        <Button onClick={() => setDisplayGroup('League')} size="sm" variant="outline-dark">League</Button>
       </div>
       <Table responsive borderless hover>
         <thead>

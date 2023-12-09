@@ -19,9 +19,7 @@ const LoadingGames: React.FunctionComponent = (): JSX.Element => {
               border: '1px solid whitesmoke',
             }}
           >
-            
-              <Skeleton count={2} />
-            
+            <Skeleton count={2} />
           </Card>
         );
       })}
