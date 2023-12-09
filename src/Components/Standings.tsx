@@ -59,7 +59,7 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
         padding: '10px',
       }}
     >
-      <p style={{ fontSize: '1.5em' }}>{displayGroup} Standings as of {dayjs().format('MM/DD/YY')}</p>
+      <p style={{ fontSize: '1.5em' }}>{displayGroup} Standings - {dayjs().format('MM/DD/YY')}</p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <span><Button onClick={() => setDisplayGroup('Division')} size="sm" variant="outline-dark">Division</Button></span>
         <span><Button onClick={() => setDisplayGroup('Conference')} size="sm" variant="outline-dark">Conference</Button></span>
