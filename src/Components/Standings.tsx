@@ -49,6 +49,16 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
       });
   }, []);
 
+  const buttonStyle = {
+    border: '1px solid grey',
+    borderRadius: '5px',
+    padding: '5px',
+    margin: '5px',
+    width: '40%',
+    backgroundColor: 'white',
+    color: 'black',
+  };
+
   return (
     <div
       className='shadow-sm'
@@ -60,9 +70,9 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
     >
       <h3>{displayGroup} Standings</h3>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button onClick={() => setDisplayGroup('Division')} size="sm" variant="outline-dark">Division</Button>
-        <Button onClick={() => setDisplayGroup('Conference')} size="sm" variant="outline-dark">Conference</Button>
-        <Button onClick={() => setDisplayGroup('League')} size="sm" variant="outline-dark">League</Button>
+        <Button onClick={() => setDisplayGroup('Division')} style={buttonStyle}>Division</Button>
+        <Button onClick={() => setDisplayGroup('Conference')} style={buttonStyle}>Conference</Button>
+        <Button onClick={() => setDisplayGroup('League')} style={buttonStyle}>League</Button>
       </div>
       <Table responsive borderless hover>
         <thead>

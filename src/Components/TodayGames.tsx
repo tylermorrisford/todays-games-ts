@@ -63,7 +63,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   }, [searchDate]);
 
   const arrowButtonStyle = {
-    border: '1px solid whitesmoke',
+    border: '1px solid grey',
     borderRadius: '5px',
     padding: '5px',
     margin: '5px',
