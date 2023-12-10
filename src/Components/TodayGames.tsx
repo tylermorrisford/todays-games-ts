@@ -50,14 +50,14 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
       .then((res) => res.json())
       .then((data) => {
         if (data.gameWeek[0].numberOfGames === 0) {
-          setToday(dayjs(data.gameWeek[0].date).format('ddd, MMM D, YYYY'));
+          setToday(dayjs(data.gameWeek[0].date).format('ddd, MM-DD-YY'));
           setLoading(false);
           return setNoGames(true);
         }
         setGames(data.gameWeek[0].games);
         console.log(data.gameWeek[0].games);
         setNoGames(false);
-        setToday(dayjs(data.gameWeek[0].date).format('ddd, MMM D, YYYY'));
+        setToday(dayjs(data.gameWeek[0].date).format('ddd, MM-DD-YY'));
         setLoading(false);
       });
   }, [searchDate]);
@@ -73,18 +73,19 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
 
   return (
     <div>
-      <p style={{ fontSize: '2em', marginBottom: 0 }}>
-        <img src={NHLLogo} width='45px' height='45px' alt='NHL Logo' />{' '}
-        <strong>{today}</strong>
+      <p style={{ fontSize: '2em', marginBottom: 0, display: 'flex', justifyContent: 'center', gap: '10px' }}>
+        <img src={NHLLogo} width='45px' height='45px' alt='NHL Logo' />
+        <strong>NHL Today</strong>
       </p>
       <p className='text-center'>
         <small style={{ color: 'grey' }}>
-          NHL Snapshot - a dashboard for nerds
+          ...a dashboard for nerds
         </small>
         <small style={{ color: 'grey' }}>
           <br /><em>NOTE:</em> This application is seeing updates to handle the NHL's new API.
         </small>
       </p>
+      <h4>Schedule for {today}</h4>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Button
           variant='light'
@@ -108,25 +109,25 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
             <br />
             Go have a beer
           </p>
-        ) : Object.keys(games).length > 0 ? (
+        ) : (
           <>
             {loading ? (
               <LoadingGames />
             ) : (
               games.map((g: any, i: number) => {
                 // renaming for readability
-                // use radio link!
+                // TODO: an onClick to cards with richer data (use radio link)
                 let awayTeam: string = g.awayTeam.abbrev;
                 let awayLogo: string = g.awayTeam.logo;
                 let homeTeam: string = g.homeTeam.abbrev;
                 let homeLogo: string = g.homeTeam.logo;
                 let aScore: number = g.awayTeam.score;
                 let hScore: number = g.homeTeam.score;
+                // TODO: fix team records
                 // let awayRec: TeamRecord = g.teams.away.leagueRecord;
                 // let homeRec: TeamRecord = g.teams.home.leagueRecord;
                 let gameState: string = g.gameState;
 
-                // TODO: fix team records
                 return (
                   <Card
                     className='shadow-sm mt-2 p-2'
@@ -206,8 +207,6 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
               })
             )}
           </>
-        ) : (
-          <div>Loading game data...</div>
         )}
       </>
     </div>

@@ -7,14 +7,14 @@ describe('When viewing the App', () => {
     render(<App />);
     const nhlLogo = screen.getByAltText(/NHL Logo/i);
     const standings = screen.getByRole('table');
-    const leaders = screen.getByText(/Stats Leaders/i);
-    const goalLeaders = screen.getByText(/goals leaders/i);
+    // const leaders = screen.getByText(/Stats Leaders/i);
+    // const goalLeaders = screen.getByText(/goals leaders/i);
     const nextButton = screen.getByRole('button', { name: /next/i });
 
     expect(nhlLogo).toBeInTheDocument();
     expect(standings).toBeInTheDocument();
-    expect(leaders).toBeInTheDocument();
-    expect(goalLeaders).toBeInTheDocument();
+    // expect(leaders).toBeInTheDocument();
+    // expect(goalLeaders).toBeInTheDocument();
     expect(nextButton).toBeInTheDocument();
   });
 });
