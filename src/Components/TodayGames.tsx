@@ -2,8 +2,10 @@ import React from 'react';
 import dayjs from 'dayjs';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import NHLLogo from '../Assets/NHL_Logo_former.svg';
 import { GameStatus } from './GameStatus';
+import GameDetailsModal from './GameDetailsModal';
 import LoadingGames from './LoadingGames';
 import { Game, TeamRecord, TodayResponse, LogoImageProps } from '../types';
 import { getEndpoint } from '../Utils/helpers';
@@ -15,6 +17,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   const [today, setToday] = React.useState<string>('');
   const [searchDate, setSearchDate] = React.useState<string>(dayjs().format('YYYY-MM-DD'));
   const [noGames, setNoGames] = React.useState<boolean>(false);
+  const [showGameModal, setShowGameModal] = React.useState<boolean>(false);
+  const [gameDetailsId, setGameDetailsId] = React.useState<number>(0);
 
   const getGameTime = (isoTime: Date): string => {
     return dayjs(isoTime).format('h:mm A');
@@ -41,12 +45,12 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     let gameDate: string = searchDate ? searchDate : currentDate.current;
     setLoading(true);
     fetch(getEndpoint('/api/schedule'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ date: gameDate }),
-      })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ date: gameDate }),
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.gameWeek[0].numberOfGames === 0) {
@@ -61,6 +65,11 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
         setLoading(false);
       });
   }, [searchDate]);
+
+  const handleShowGameDetails = (id: number): void => {
+    setGameDetailsId(id);
+    setShowGameModal(true);
+  }
 
   const arrowButtonStyle = {
     border: '1px solid grey',
@@ -133,6 +142,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                     className='shadow-sm mt-2 p-2'
                     style={{ fontSize: '1.3em' }}
                     key={i}
+                    onClick={() => handleShowGameDetails(g.id)}
                   >
                     <span
                       style={{
@@ -140,16 +150,16 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                           aScore > hScore
                             ? 'green'
                             : aScore < hScore
-                            ? 'grey'
-                            : 'black',
+                              ? 'grey'
+                              : 'black',
                       }}
                     >
                       <LogoImage team={awayTeam} url={awayLogo} />
                       {awayTeam}{' '}
                       {gameState === 'LIVE' ||
-                      gameState === 'FINAL' ||
-                      gameState === 'OFF' ||
-                      gameState === 'CRIT' ? (
+                        gameState === 'FINAL' ||
+                        gameState === 'OFF' ||
+                        gameState === 'CRIT' ? (
                         <>{aScore}</>
                       ) : (
                         <>
@@ -164,16 +174,16 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                           hScore > aScore
                             ? 'green'
                             : hScore < aScore
-                            ? 'grey'
-                            : 'black',
+                              ? 'grey'
+                              : 'black',
                       }}
                     >
                       <LogoImage team={homeTeam} url={homeLogo} />
                       {homeTeam}{' '}
                       {gameState === 'LIVE' ||
-                      gameState === 'FINAL' ||
-                      gameState === 'OFF' ||
-                      gameState === 'CRIT' ? (
+                        gameState === 'FINAL' ||
+                        gameState === 'OFF' ||
+                        gameState === 'CRIT' ? (
                         <>
                           {hScore}
                           <span
@@ -209,6 +219,20 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
           </>
         )}
       </>
+      <GameDetailsModal showGameModal={showGameModal} setShowGameModal={setShowGameModal} gameId={gameDetailsId} />
+      {/* <Modal show={showGameModal} onHide={() =>  setShowGameModal(true)} animation={false}>
+        <Modal.Header>
+          <Modal.Title>Game Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Game details go here</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={() => setShowGameModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal> */}
     </div>
   );
 };
