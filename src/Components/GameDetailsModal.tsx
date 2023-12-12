@@ -86,7 +86,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                             setListenAway(!listenAway)
                         }}>Toggle Away Radio</Button>
                 </div>
-                <br />
+                
                 {(showRadio && listenHome) && (
                     <>
                         <span>Home Broadcast</span>
@@ -95,7 +95,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                             autoPlay={false}
                             controls={true}
                             width="100%"
-                            height="40px"
+                            height="50px"
                             playerRef={homeRef}
                         />
                     </>
@@ -103,13 +103,13 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                 <br />
                 {(showRadio && listenAway) && (
                     <>
-                        <span>Home Broadcast</span>
+                        <span>Away Broadcast</span>
                         <ReactHlsPlayer
                             src={data?.awayTeam?.radioLink}
                             autoPlay={false}
                             controls={true}
                             width="100%"
-                            height="40px"
+                            height="50px"
                             playerRef={awayRef}
                         />
                     </>
