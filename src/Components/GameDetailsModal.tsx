@@ -1,11 +1,11 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import Badge from 'react-bootstrap/Badge';
+import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
 import useSWR from 'swr';
-import { getEndpoint, getPeriod } from '../Utils/helpers';
+import { getEndpoint } from '../Utils/helpers';
 import ReactHlsPlayer from 'react-hls-player';
-import { LogoImage } from './LogoImage';
+import GameDetailsBody from './GameDetailsBody';
 
 interface GameDetailsModalProps {
     showGameModal: boolean;
@@ -25,8 +25,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     const homeRef = React.useRef<any>(null);
     const awayRef = React.useRef<any>(null);
 
-    const { data } = useSWR(
-        showGameModal ? getEndpoint(`/api/gamecenter`) : null,
+    const { data } = useSWR(getEndpoint(`/api/gamecenter`),
         async (url) => {
             const response = await fetch(url, {
                 method: 'POST',
@@ -35,39 +34,23 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
             });
             return response.json();
         },
-        { refreshInterval: (showGameModal && showRadio === false) ? 2000 : 0 }
     );
 
-    console.log('GameDetailsModal data', data);
+    const getModalTitle = (): string => {
+        if (data) {
+            return `${data?.homeTeam?.abbrev} at ${data?.awayTeam?.abbrev}`
+        }
+        return gameId.toString();
+    }
 
     return (
         <Modal size='lg' show={showGameModal} onHide={() => setShowGameModal(false)}>
             <Modal.Header closeButton>
-                <Modal.Title>Game Details for {gameId}</Modal.Title>
+                <Modal.Title>Game Details for {getModalTitle()}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '50px', paddingBottom: '15px' }}>
-                    <div style={{ textAlign: 'center' }}>
-                        <LogoImage url={data?.homeTeam?.logo} team={data?.homeTeam?.abbrev} /><br />
-                        {data?.homeTeam?.abbrev}<br />
-                        {data?.homeTeam?.score}
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Badge bg={data?.clock?.running ? 'success' : data?.clock?.inIntermission ? 'warning' : 'light'} text={(!data?.clock?.running && !data?.clock?.inIntermission) ? 'dark' : 'light'}>
-                            <span>
-                                {data?.clock?.timeRemaining} - {data?.clock?.inIntermission ? 'Int' : getPeriod(data?.period)}
-                            </span>
-                        </Badge>
-                    </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <LogoImage url={data?.awayTeam?.logo} team={data?.awayTeam?.abbrev} /><br />
-                        {data?.awayTeam?.abbrev}<br />
-                        {data?.awayTeam?.score}
-                    </div>
-                </div>
-
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-
+                <GameDetailsBody gameId={gameId} />
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
                     <Button
                         size='sm'
                         variant='light'
@@ -75,7 +58,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                         onClick={() => {
                             setShowRadio(!showRadio)
                             setListenHome(!listenHome)
-                        }}>Toggle Home Radio</Button>
+                        }}>Listen Home Radio</Button>
 
                     <Button
                         size='sm'
@@ -84,32 +67,32 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                         onClick={() => {
                             setShowRadio(!showRadio)
                             setListenAway(!listenAway)
-                        }}>Toggle Away Radio</Button>
+                        }}>Listen Away Radio</Button>
                 </div>
-                
+
                 {(showRadio && listenHome) && (
                     <>
-                        <span>Home Broadcast</span>
+                        <p className='text-center'>Home Broadcast</p>
                         <ReactHlsPlayer
                             src={data?.homeTeam?.radioLink}
                             autoPlay={false}
                             controls={true}
                             width="100%"
-                            height="50px"
+                            height="75px"
                             playerRef={homeRef}
                         />
                     </>
                 )}
-                <br />
+
                 {(showRadio && listenAway) && (
                     <>
-                        <span>Away Broadcast</span>
+                        <p className='text-center'>Away Broadcast</p>
                         <ReactHlsPlayer
                             src={data?.awayTeam?.radioLink}
                             autoPlay={false}
                             controls={true}
                             width="100%"
-                            height="50px"
+                            height="75px"
                             playerRef={awayRef}
                         />
                     </>

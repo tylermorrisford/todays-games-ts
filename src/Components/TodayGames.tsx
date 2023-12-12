@@ -2,7 +2,6 @@ import React from 'react';
 import dayjs from 'dayjs';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import NHLLogo from '../Assets/NHL_Logo_former.svg';
 import { GameStatus } from './GameStatus';
 import GameDetailsModal from './GameDetailsModal';
@@ -40,7 +39,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     setSearchDate(currentDate.current);
   };
 
-  //  schedule endpoint https://api-web.nhle.com/v1/schedule/now
+
   React.useEffect(() => {
     let gameDate: string = searchDate ? searchDate : currentDate.current;
     setLoading(true);
@@ -125,16 +124,13 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
             ) : (
               games.map((g: any, i: number) => {
                 // renaming for readability
-                // TODO: an onClick to cards with richer data (use radio link)
                 let awayTeam: string = g.awayTeam.abbrev;
                 let awayLogo: string = g.awayTeam.logo;
                 let homeTeam: string = g.homeTeam.abbrev;
                 let homeLogo: string = g.homeTeam.logo;
                 let aScore: number = g.awayTeam.score;
                 let hScore: number = g.homeTeam.score;
-                // TODO: fix team records
-                // let awayRec: TeamRecord = g.teams.away.leagueRecord;
-                // let homeRec: TeamRecord = g.teams.home.leagueRecord;
+                // TODO: show other data based on game state
                 let gameState: string = g.gameState;
 
                 return (
@@ -220,19 +216,6 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
         )}
       </>
       <GameDetailsModal showGameModal={showGameModal} setShowGameModal={setShowGameModal} gameId={gameDetailsId} />
-      {/* <Modal show={showGameModal} onHide={() =>  setShowGameModal(true)} animation={false}>
-        <Modal.Header>
-          <Modal.Title>Game Details</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>Game details go here</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant='secondary' onClick={() => setShowGameModal(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
     </div>
   );
 };

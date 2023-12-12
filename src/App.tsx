@@ -21,7 +21,7 @@ export default function App() {
           <Standings />
         </Col>
       </Row>
-      <hr />
+      {/* <hr /> */}
       {/* <Row>
         <h2 className='text-center'><strong>Stats Leaders</strong></h2>
         <Col sm={12} md={8}>
