@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/todays-games-ts/static/css/main.7e662cd6.css",
-    "main.js": "/todays-games-ts/static/js/main.5449e011.js",
+    "main.js": "/todays-games-ts/static/js/main.3b495884.js",
     "static/media/NHL_Logo_former.svg": "/todays-games-ts/static/media/NHL_Logo_former.33f4f924955ccc851292a39927201f2e.svg",
     "index.html": "/todays-games-ts/index.html",
     "main.7e662cd6.css.map": "/todays-games-ts/static/css/main.7e662cd6.css.map",
-    "main.5449e011.js.map": "/todays-games-ts/static/js/main.5449e011.js.map"
+    "main.3b495884.js.map": "/todays-games-ts/static/js/main.3b495884.js.map"
   },
   "entrypoints": [
     "static/css/main.7e662cd6.css",
-    "static/js/main.5449e011.js"
+    "static/js/main.3b495884.js"
   ]
 }
