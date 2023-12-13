@@ -25,7 +25,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     const homeRef = React.useRef<any>(null);
     const awayRef = React.useRef<any>(null);
 
-    const { data } = useSWR(getEndpoint(`/api/gamecenter`),
+    const { data } = useSWR(getEndpoint(`/api/landing`),
         async (url) => {
             const response = await fetch(url, {
                 method: 'POST',
@@ -38,10 +38,11 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
 
     const getModalTitle = (): string => {
         if (data) {
-            return `${data?.homeTeam?.abbrev} at ${data?.awayTeam?.abbrev}`
+            return `${data?.awayTeam?.abbrev} at ${data?.homeTeam?.abbrev}`
         }
         return gameId.toString();
     }
+    console.log('game details modal data (not polled): ', data);
 
     return (
         <Modal size='lg' show={showGameModal} onHide={() => setShowGameModal(false)}>

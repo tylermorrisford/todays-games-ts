@@ -13,7 +13,7 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
     gameId,
 }): JSX.Element => {
 
-    const { data, error, isLoading } = useSWR(getEndpoint(`/api/gamecenter`),
+    const { data, error, isLoading } = useSWR(getEndpoint(`/api/play-by-play`),
         async (url) => {
             const response = await fetch(url, {
                 method: 'POST',
@@ -26,8 +26,8 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
 
     React.useEffect(() => {
         const interval = setInterval(() => {
-            mutate(getEndpoint(`/api/gamecenter`));
-        }, 2000); // Refresh every 2 seconds
+            mutate(getEndpoint(`/api/play-by-play`));
+        }, 2500); // Refresh every 2.5 seconds
 
         return () => {
             clearInterval(interval);
@@ -41,6 +41,7 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
         height: '130px',
         paddingBottom: '15px',
     };
+    console.log('polled data: ', data);
 
     if (isLoading) return <div style={centerStyle}><Spinner animation='grow' variant='dark' size='sm' /></div>
     if (error) return <div style={centerStyle}>failed to load: {JSON.stringify(error)}</div>
@@ -67,6 +68,15 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
                     <small>SOG: {data?.awayTeam?.sog}</small>
                 </div>
             </div>
+
+            {/* {data && data?.plays?.slice(-5).reverse().map((play: any, index: number) => {
+                return (
+                    <div key={index}>
+                        <small>{play.timeRemaining} - {play.typeDescKey} {play.details?.reason}</small>
+                    </div>
+                )
+            })
+            } */}
         </>
     );
 }
