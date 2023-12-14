@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { teefDev, leaderCategories, goaltenderCategories } from './constants'
+import { APITest } from './Components/APITest';
 
 export default function App() {
 
@@ -17,10 +18,11 @@ export default function App() {
         <Col sm={12} md={4}>
           <TodayGames />
         </Col>
-        <Col sm={12} md={{span: 6, offset: 1}} className="mt-3">
+        <Col sm={12} md={{ span: 6, offset: 1 }} className="mt-3">
           <Standings />
         </Col>
       </Row>
+      {/* <APITest id={2023020439} /> */}
       {/* <hr /> */}
       {/* <Row>
         <h2 className='text-center'><strong>Stats Leaders</strong></h2>
@@ -29,16 +31,16 @@ export default function App() {
       {/* {leaderCategories.map((cat: string) => {
         return <Leaders season={season} category={cat} key={cat} />
       })} */}
-        {/* </Col>
+      {/* </Col>
         <Col sm={12} md={4}>
         <p style={{fontSize: '1.5em'}}><em><strong>Goaltenders</strong></em></p> */}
-          {/* {goaltenderCategories.map((cat: string) => {
+      {/* {goaltenderCategories.map((cat: string) => {
             return <Leaders season={season} category={cat} key={cat} />
           })} */}
-        {/* </Col>
+      {/* </Col>
       </Row> */}
       <Row>
-        <Col className="mt-3 mb-5" sm={12} md={{span: 6, offset: 3}}>
+        <Col className="mt-3 mb-5" sm={12} md={{ span: 6, offset: 3 }}>
           <hr />
           <small>Info about the developer is <a href={teefDev}>here</a>.</small>
         </Col>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import Spinner from 'react-bootstrap/Spinner';
+// import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
 import useSWR from 'swr';
 import { getEndpoint } from '../Utils/helpers';
@@ -25,13 +25,15 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     const homeRef = React.useRef<any>(null);
     const awayRef = React.useRef<any>(null);
 
-    const { data } = useSWR(getEndpoint(`/api/landing`),
+    const { data } = useSWR(showGameModal ? getEndpoint(`/api/gamecenter`) : null,
         async (url) => {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: gameId }),
             });
+            console.log('game details modal fetching... ');
+
             return response.json();
         },
     );
