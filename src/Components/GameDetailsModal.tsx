@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 // import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { getEndpoint } from '../Utils/helpers';
 import ReactHlsPlayer from 'react-hls-player';
 import GameDetailsBody from './GameDetailsBody';
@@ -25,18 +25,22 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     const homeRef = React.useRef<any>(null);
     const awayRef = React.useRef<any>(null);
 
-    const { data } = useSWR(showGameModal ? getEndpoint(`/api/gamecenter`) : null,
+    const { data } = useSWR(showGameModal ? getEndpoint(`/api/landing`) : null,
         async (url) => {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: gameId }),
             });
-            console.log('game details modal fetching... ');
-
             return response.json();
         },
     );
+
+    React.useEffect(() => {
+        if (showGameModal) {
+            mutate(getEndpoint(`/api/landing`));
+        }
+    }, [showGameModal]);
 
     const getModalTitle = (): string => {
         if (data) {
@@ -52,7 +56,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                 <Modal.Title>Game Details for {getModalTitle()}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <GameDetailsBody gameId={gameId} />
+                <GameDetailsBody gameId={gameId} showGameModal={showGameModal} />
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
                     <Button
                         size='sm'

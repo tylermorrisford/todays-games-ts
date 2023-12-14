@@ -6,14 +6,16 @@ import { getEndpoint, getPeriod } from '../Utils/helpers';
 import { LogoImage } from './LogoImage';
 
 interface GameDetailsBodyProps {
+    showGameModal: boolean;
     gameId: number;
 }
 
 const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
+    showGameModal,
     gameId,
 }): JSX.Element => {
 
-    const { data, error, isLoading } = useSWR(getEndpoint(`/api/play-by-play`),
+    const { data, error, isLoading } = useSWR(showGameModal ? getEndpoint(`/api/play-by-play`) : null,
         async (url) => {
             const response = await fetch(url, {
                 method: 'POST',
@@ -23,6 +25,13 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
             return response.json();
         },
     );
+
+    // effect to handle ditching the cache
+    React.useEffect(() => {
+        if (showGameModal) {
+            mutate(getEndpoint(`/api/play-by-play`));
+        }
+    }, [showGameModal]);
 
     React.useEffect(() => {
         const interval = setInterval(() => {
