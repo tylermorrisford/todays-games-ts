@@ -48,7 +48,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
         }
         return gameId.toString();
     }
-    console.log('game details modal data (not polled): ', data);
+    console.log('game details modal data /landing (not polled): ', data);
 
     return (
         <Modal size='lg' show={showGameModal} onHide={() => setShowGameModal(false)}>
@@ -57,7 +57,19 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
             </Modal.Header>
             <Modal.Body>
                 <GameDetailsBody gameId={gameId} showGameModal={showGameModal} />
+                <hr style={{ width: '80%', margin: '5px auto', color: 'grey' }} />
+
+                {/* Add scoring summary */}
+
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
+                    <Button
+                        size='sm'
+                        variant='light'
+                        disabled={listenHome}
+                        onClick={() => {
+                            setShowRadio(!showRadio)
+                            setListenAway(!listenAway)
+                        }}>Listen Away Radio</Button>
                     <Button
                         size='sm'
                         variant='light'
@@ -67,14 +79,6 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                             setListenHome(!listenHome)
                         }}>Listen Home Radio</Button>
 
-                    <Button
-                        size='sm'
-                        variant='light'
-                        disabled={listenHome}
-                        onClick={() => {
-                            setShowRadio(!showRadio)
-                            setListenAway(!listenAway)
-                        }}>Listen Away Radio</Button>
                 </div>
 
                 {(showRadio && listenHome) && (

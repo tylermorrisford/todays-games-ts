@@ -14,8 +14,8 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
     showGameModal,
     gameId,
 }): JSX.Element => {
-
-    const { data, error, isLoading } = useSWR(showGameModal ? getEndpoint(`/api/play-by-play`) : null,
+    const { data, error, isLoading } = useSWR(
+        showGameModal ? getEndpoint(`/api/gamecenter`) : null,
         async (url) => {
             const response = await fetch(url, {
                 method: 'POST',
@@ -23,19 +23,19 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
                 body: JSON.stringify({ id: gameId }),
             });
             return response.json();
-        },
+        }
     );
 
     // effect to handle ditching the cache
     React.useEffect(() => {
         if (showGameModal) {
-            mutate(getEndpoint(`/api/play-by-play`));
+            mutate(getEndpoint(`/api/gamecenter`));
         }
     }, [showGameModal]);
 
     React.useEffect(() => {
         const interval = setInterval(() => {
-            mutate(getEndpoint(`/api/play-by-play`));
+            mutate(getEndpoint(`/api/gamecenter`));
         }, 2500); // Refresh every 2.5 seconds
 
         return () => {
@@ -50,31 +50,84 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
         height: '130px',
         paddingBottom: '15px',
     };
-    console.log('polled data: ', data);
+    console.log('polled game data /gamecenter : ', data);
 
-    if (isLoading) return <div style={centerStyle}><Spinner animation='grow' variant='dark' size='sm' /></div>
-    if (error) return <div style={centerStyle}>failed to load: {JSON.stringify(error)}</div>
+    if (isLoading)
+        return (
+            <div style={centerStyle}>
+                <Spinner animation='grow' variant='dark' size='sm' />
+            </div>
+        );
+    if (error)
+        return (
+            <div style={centerStyle}>failed to load: {JSON.stringify(error)}</div>
+        );
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '50px', paddingBottom: '15px' }}>
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '10%',
+                    paddingBottom: '15px',
+                }}
+            >
                 <div style={{ textAlign: 'center' }}>
-                    <LogoImage url={data?.homeTeam?.logo} team={data?.homeTeam?.abbrev} /><br />
-                    {data?.homeTeam?.name?.default}<br />
-                    <strong>{data?.homeTeam?.score}</strong><br />
-                    <small>SOG: {data?.homeTeam?.sog}</small>
+                    <LogoImage url={data?.awayTeam?.logo} team={data?.awayTeam?.abbrev} />
+                    <br />
+                    {data?.awayTeam?.name?.default}
+                    <br />
+                    <strong>{data?.awayTeam?.score}</strong>
+                    <br />
+                    <small>SOG: {data?.awayTeam?.sog}</small>
+                    <br />
+                    {data?.situation?.awayTeam?.situationDescriptions?.length > 0 && (
+                        <small className='text-success'>
+                            {data?.situation?.awayTeam?.situationDescriptions[0]}-
+                            {data?.situation?.awayTeam?.strength} on{' '}
+                            {data?.situation?.homeTeam?.strength}<br />
+                            {data?.situation?.timeRemaining && data?.situation?.timeRemaining}
+                        </small>
+                    )}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Badge bg={data?.clock?.running ? 'success' : data?.clock?.inIntermission ? 'warning' : 'light'} text={(!data?.clock?.running && !data?.clock?.inIntermission) ? 'dark' : 'light'}>
+                    <Badge
+                        bg={
+                            data?.clock?.running
+                                ? 'success'
+                                : data?.clock?.inIntermission
+                                    ? 'warning'
+                                    : 'light'
+                        }
+                        text={
+                            !data?.clock?.running && !data?.clock?.inIntermission
+                                ? 'dark'
+                                : 'light'
+                        }
+                    >
                         <span>
-                            {data?.clock?.timeRemaining} - {data?.clock?.inIntermission ? 'Int' : getPeriod(data?.period)}
+                            {data?.clock?.timeRemaining} -{' '}
+                            {data?.clock?.inIntermission ? 'Int' : getPeriod(data?.period)}
                         </span>
                     </Badge>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                    <LogoImage url={data?.awayTeam?.logo} team={data?.awayTeam?.abbrev} /><br />
-                    {data?.awayTeam?.name?.default}<br />
-                    <strong>{data?.awayTeam?.score}</strong><br />
-                    <small>SOG: {data?.awayTeam?.sog}</small>
+                    <LogoImage url={data?.homeTeam?.logo} team={data?.homeTeam?.abbrev} />
+                    <br />
+                    {data?.homeTeam?.name?.default}
+                    <br />
+                    <strong>{data?.homeTeam?.score}</strong>
+                    <br />
+                    <small>SOG: {data?.homeTeam?.sog}</small>
+                    <br />
+                    {data?.situation?.homeTeam?.situationDescriptions?.length > 0 && (
+                        <small className='text-success'>
+                            {data?.situation?.homeTeam?.situationDescriptions[0]}-
+                            {data?.situation?.homeTeam?.strength} on{' '}
+                            {data?.situation?.awayTeam?.strength}<br />
+                            {data?.situation?.timeRemaining && data?.situation?.timeRemaining}
+                        </small>
+                    )}
                 </div>
             </div>
 
@@ -88,6 +141,6 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
             } */}
         </>
     );
-}
+};
 
 export default GameDetailsBody;
