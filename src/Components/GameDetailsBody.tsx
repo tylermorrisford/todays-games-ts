@@ -2,17 +2,19 @@ import React from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Spinner from 'react-bootstrap/Spinner';
 import useSWR, { mutate } from 'swr';
-import { getEndpoint, getPeriod } from '../Utils/helpers';
+import { getEndpoint, getPeriod, isGameLive } from '../Utils/helpers';
 import { LogoImage } from './LogoImage';
 
 interface GameDetailsBodyProps {
     showGameModal: boolean;
     gameId: number;
+    gameState?: string;
 }
 
 const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
     showGameModal,
     gameId,
+    gameState,
 }): JSX.Element => {
     const { data, error, isLoading } = useSWR(
         showGameModal ? getEndpoint(`/api/gamecenter`) : null,
@@ -28,20 +30,17 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
 
     // effect to handle ditching the cache
     React.useEffect(() => {
-        if (showGameModal) {
-            mutate(getEndpoint(`/api/gamecenter`));
+        // only poll for live games
+        if (gameState && isGameLive(gameState)) {
+            const interval = setInterval(() => {
+                mutate(getEndpoint(`/api/gamecenter`));
+            }, 3000); // Attempt to avoid concurrent requests
+
+            return () => {
+                clearInterval(interval);
+            };
         }
-    }, [showGameModal]);
-
-    React.useEffect(() => {
-        const interval = setInterval(() => {
-            mutate(getEndpoint(`/api/gamecenter`));
-        }, 2500); // Refresh every 2.5 seconds
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, []);
+    }, [gameState]);
 
     const centerStyle = {
         display: 'flex',
@@ -106,7 +105,7 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
                         }
                     >
                         <span>
-                            {data?.clock?.timeRemaining} -{' '}
+                            {data?.gameState === 'OFF' || data?.gameState === 'FINAL' ? 'Final' : data?.clock?.timeRemaining} -{' '}
                             {data?.clock?.inIntermission ? 'Int' : getPeriod(data?.period)}
                         </span>
                     </Badge>

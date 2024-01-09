@@ -24,3 +24,7 @@ export const getPeriod = (period: number): string => {
 export const getRecord = (recObj: Object | any): string => {
   return `${recObj.wins}-${recObj.losses}-${recObj.otLosses}`;
 };
+
+export const isGameLive = (gameState: string): boolean => {
+  return gameState === "LIVE" || gameState === "CRIT";
+}

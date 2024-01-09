@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 // import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
 import useSWR, { mutate } from 'swr';
-import { getEndpoint } from '../Utils/helpers';
+import { getEndpoint, isGameLive } from '../Utils/helpers';
 import ReactHlsPlayer from 'react-hls-player';
 import GameDetailsBody from './GameDetailsBody';
 
@@ -11,12 +11,16 @@ interface GameDetailsModalProps {
     showGameModal: boolean;
     setShowGameModal: React.Dispatch<React.SetStateAction<boolean>>;
     gameId: number;
+    gameState: string;
+    threeMinRecap?: string;
 }
 
 const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     showGameModal,
     setShowGameModal,
     gameId,
+    gameState,
+    threeMinRecap,
 }): JSX.Element => {
 
     const [showRadio, setShowRadio] = React.useState<boolean>(false);
@@ -49,6 +53,9 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
         return gameId.toString();
     }
     console.log('game details modal data /landing (not polled): ', data);
+    console.log('gameState: ', gameState);
+    console.log(isGameLive(gameState));
+
 
     return (
         <Modal size='lg' show={showGameModal} onHide={() => setShowGameModal(false)}>
@@ -56,60 +63,61 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                 <Modal.Title>Game Details for {getModalTitle()}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <GameDetailsBody gameId={gameId} showGameModal={showGameModal} />
-                <hr style={{ width: '80%', margin: '5px auto', color: 'grey' }} />
+                <GameDetailsBody gameId={gameId} showGameModal={showGameModal} gameState={gameState} />
+                {/* Add scoring details */}
+                {gameState && isGameLive(gameState) &&
+                    <div>
+                        <hr style={{ width: '80%', margin: '5px auto', color: 'grey' }} />
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
+                            <Button
+                                size='sm'
+                                variant='light'
+                                disabled={listenHome}
+                                onClick={() => {
+                                    setShowRadio(!showRadio)
+                                    setListenAway(!listenAway)
+                                }}>Listen Away Radio</Button>
+                            <Button
+                                size='sm'
+                                variant='light'
+                                disabled={listenAway}
+                                onClick={() => {
+                                    setShowRadio(!showRadio)
+                                    setListenHome(!listenHome)
+                                }}>Listen Home Radio</Button>
 
-                {/* Add scoring summary */}
+                        </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
-                    <Button
-                        size='sm'
-                        variant='light'
-                        disabled={listenHome}
-                        onClick={() => {
-                            setShowRadio(!showRadio)
-                            setListenAway(!listenAway)
-                        }}>Listen Away Radio</Button>
-                    <Button
-                        size='sm'
-                        variant='light'
-                        disabled={listenAway}
-                        onClick={() => {
-                            setShowRadio(!showRadio)
-                            setListenHome(!listenHome)
-                        }}>Listen Home Radio</Button>
+                        {(showRadio && listenHome) && (
+                            <>
+                                <p className='text-center'>Home Broadcast</p>
+                                <ReactHlsPlayer
+                                    src={data?.homeTeam?.radioLink}
+                                    autoPlay={false}
+                                    controls={true}
+                                    width="100%"
+                                    height="75px"
+                                    playerRef={homeRef}
+                                />
+                            </>
+                        )}
 
-                </div>
-
-                {(showRadio && listenHome) && (
-                    <>
-                        <p className='text-center'>Home Broadcast</p>
-                        <ReactHlsPlayer
-                            src={data?.homeTeam?.radioLink}
-                            autoPlay={false}
-                            controls={true}
-                            width="100%"
-                            height="75px"
-                            playerRef={homeRef}
-                        />
-                    </>
-                )}
-
-                {(showRadio && listenAway) && (
-                    <>
-                        <p className='text-center'>Away Broadcast</p>
-                        <ReactHlsPlayer
-                            src={data?.awayTeam?.radioLink}
-                            autoPlay={false}
-                            controls={true}
-                            width="100%"
-                            height="75px"
-                            playerRef={awayRef}
-                        />
-                    </>
-                )}
+                        {(showRadio && listenAway) && (
+                            <>
+                                <p className='text-center'>Away Broadcast</p>
+                                <ReactHlsPlayer
+                                    src={data?.awayTeam?.radioLink}
+                                    autoPlay={false}
+                                    controls={true}
+                                    width="100%"
+                                    height="75px"
+                                    playerRef={awayRef}
+                                />
+                            </>
+                        )}
+                    </div>}
             </Modal.Body>
-        </Modal>
+        </Modal >
     );
 }
 

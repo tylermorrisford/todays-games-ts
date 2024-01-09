@@ -7,7 +7,6 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { teefDev, leaderCategories, goaltenderCategories } from './constants'
-import { APITest } from './Components/APITest';
 
 export default function App() {
 
@@ -22,7 +21,6 @@ export default function App() {
           <Standings />
         </Col>
       </Row>
-      {/* <APITest id={2023020439} /> */}
       {/* <hr /> */}
       {/* <Row>
         <h2 className='text-center'><strong>Stats Leaders</strong></h2>

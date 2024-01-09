@@ -18,6 +18,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
   const [noGames, setNoGames] = React.useState<boolean>(false);
   const [showGameModal, setShowGameModal] = React.useState<boolean>(false);
   const [gameDetailsId, setGameDetailsId] = React.useState<number>(0);
+  const [gameState, setGameState] = React.useState<string>('');
 
   const getGameTime = (isoTime: Date): string => {
     return dayjs(isoTime).format('h:mm A');
@@ -65,8 +66,9 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
       });
   }, [searchDate]);
 
-  const handleShowGameDetails = (id: number): void => {
+  const handleShowGameDetails = (id: number, gameState: string): void => {
     setGameDetailsId(id);
+    setGameState(gameState);
     setShowGameModal(true);
   }
 
@@ -138,7 +140,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                     className='shadow-sm mt-2 p-2'
                     style={{ fontSize: '1.3em' }}
                     key={i}
-                    onClick={() => handleShowGameDetails(g.id)}
+                    onClick={() => handleShowGameDetails(g.id, gameState)}
                   >
                     <span
                       style={{
@@ -214,8 +216,13 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
             )}
           </>
         )}
+        <GameDetailsModal
+          showGameModal={showGameModal}
+          setShowGameModal={setShowGameModal}
+          gameId={gameDetailsId}
+          gameState={gameState}
+        />
       </>
-      <GameDetailsModal showGameModal={showGameModal} setShowGameModal={setShowGameModal} gameId={gameDetailsId} />
     </div>
   );
 };
