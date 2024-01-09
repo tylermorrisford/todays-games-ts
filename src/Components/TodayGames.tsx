@@ -91,9 +91,6 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
         <small style={{ color: 'grey' }}>
           ...a dashboard for nerds
         </small>
-        <small style={{ color: 'grey' }}>
-          <br /><em>NOTE:</em> This application is seeing updates to handle the NHL's new API.
-        </small>
       </p>
       <h4>Schedule for {today}</h4>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
