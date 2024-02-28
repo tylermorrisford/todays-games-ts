@@ -38,12 +38,12 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
     const homeGoals = allGoals?.filter((goal: Goal) => goal?.teamAbbrev?.default === homeTeam);
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div>
             {showScoring(gameState) && (
-                <div>
-                    <h5 style={{ textAlign: 'center' }}>Scoring</h5>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '30px' }}>
-                        <div style={{ placeItems: 'center' }}>
+                <>
+                    <h6 style={{ textAlign: 'center' }}>Scoring</h6>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
+                        <div style={{ placeItems: 'end' }}>
                             <h6 style={{ textAlign: 'center' }}>{awayTeam}</h6>
                             {awayGoals?.map((goal: Goal, i: number) => {
                                 return (
@@ -52,7 +52,7 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
                             }
                             )}
                         </div>
-                        <div style={{ placeItems: 'center' }}>
+                        <div style={{ placeContent: 'start' }}>
                             <h6 style={{ textAlign: 'center' }}>{homeTeam}</h6>
                             {homeGoals?.map((goal: Goal, i: number) => {
                                 return (
@@ -62,7 +62,7 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
                             )}
                         </div>
                     </div>
-                </div>
+                </>
             )
             }
         </div>
