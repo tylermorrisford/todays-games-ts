@@ -139,3 +139,19 @@ export type LogoImageProps = {
   team: string;
   url: string;
 };
+
+// unsure if any of the above types are usable with new API
+
+export type Goal = {
+  strength: string;
+    name: {
+        default: string;
+    }
+    headshot: string;
+    shotType: string;
+    timeInPeriod: string;
+    teamAbbrev: {
+        default: string;
+    }
+    goalsToDate: number;
+}

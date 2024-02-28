@@ -28,3 +28,12 @@ export const getRecord = (recObj: Object | any): string => {
 export const isGameLive = (gameState: string): boolean => {
   return gameState === "LIVE" || gameState === "CRIT";
 }
+
+export const showScoring = (gameState: string): boolean => {
+  return gameState === "LIVE" 
+  || gameState === "CRIT" 
+  || gameState === "FINAL" 
+  || gameState === "OFF" 
+  || gameState === "OT" 
+  || gameState === "SO";
+}

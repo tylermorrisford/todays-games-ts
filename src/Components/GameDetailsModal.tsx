@@ -6,6 +6,7 @@ import useSWR, { mutate } from 'swr';
 import { getEndpoint, isGameLive } from '../Utils/helpers';
 import ReactHlsPlayer from 'react-hls-player';
 import GameDetailsBody from './GameDetailsBody';
+import GameDetailsScoring from './GameDetailsScoring';
 
 interface GameDetailsModalProps {
     showGameModal: boolean;
@@ -52,10 +53,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
         }
         return gameId.toString();
     }
-    console.log('game details modal data /landing (not polled): ', data);
-    console.log('gameState: ', gameState);
-    console.log(isGameLive(gameState));
-
+    console.log('game details `/landing` (not polled): ', data);
 
     return (
         <Modal size='lg' show={showGameModal} onHide={() => setShowGameModal(false)}>
@@ -64,7 +62,12 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
             </Modal.Header>
             <Modal.Body>
                 <GameDetailsBody gameId={gameId} showGameModal={showGameModal} gameState={gameState} />
-                {/* Add scoring details */}
+                <GameDetailsScoring 
+                    gameState={gameState} 
+                    scoring={data?.summary?.scoring} 
+                    awayTeam={data?.awayTeam?.abbrev}
+                    homeTeam={data?.homeTeam?.abbrev}
+                />
                 {gameState && isGameLive(gameState) &&
                     <div>
                         <hr style={{ width: '80%', margin: '5px auto', color: 'grey' }} />
@@ -93,7 +96,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                                 <p className='text-center'>Home Broadcast</p>
                                 <ReactHlsPlayer
                                     src={data?.homeTeam?.radioLink}
-                                    autoPlay={false}
+                                    autoPlay={true}
                                     controls={true}
                                     width="100%"
                                     height="75px"
@@ -107,7 +110,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                                 <p className='text-center'>Away Broadcast</p>
                                 <ReactHlsPlayer
                                     src={data?.awayTeam?.radioLink}
-                                    autoPlay={false}
+                                    autoPlay={true}
                                     controls={true}
                                     width="100%"
                                     height="75px"
