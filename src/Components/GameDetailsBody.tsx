@@ -78,7 +78,7 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
                     <br />
                     <strong>{data?.awayTeam?.score}</strong>
                     <br />
-                    <small>SOG: {data?.awayTeam?.sog}</small>
+                    {data?.awayTeam?.sog && <small>SOG: {data?.awayTeam?.sog}</small>}
                     <br />
                     {data?.situation?.awayTeam?.situationDescriptions?.length > 0 && (
                         <small className='text-success'>
@@ -106,7 +106,7 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
                     >
                         <span>
                             {data?.gameState === 'OFF' || data?.gameState === 'FINAL' ? 'Final' : data?.clock?.timeRemaining} -{' '}
-                            {data?.clock?.inIntermission ? 'Int' : getPeriod(data?.period)}
+                            {data?.clock?.inIntermission ? 'Int' : getPeriod(data?.periodDescriptor?.number)}
                         </span>
                     </Badge>
                 </div>
@@ -117,7 +117,7 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
                     <br />
                     <strong>{data?.homeTeam?.score}</strong>
                     <br />
-                    <small>SOG: {data?.homeTeam?.sog}</small>
+                    {data?.homeTeam?.sog && <small>SOG: {data?.homeTeam?.sog}</small>}
                     <br />
                     {data?.situation?.homeTeam?.situationDescriptions?.length > 0 && (
                         <small className='text-success'>

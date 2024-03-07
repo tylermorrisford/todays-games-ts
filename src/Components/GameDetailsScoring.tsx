@@ -41,10 +41,10 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
         <div>
             {showScoring(gameState) && (
                 <>
+                    <hr style={{ width: '80%', margin: '5px auto', color: 'grey' }} />
                     <h6 style={{ textAlign: 'center' }}>Scoring</h6>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '20px' }}>
-                        <div style={{ placeItems: 'end' }}>
-                            <h6 style={{ textAlign: 'center' }}>{awayTeam}</h6>
+                        <div style={{ textAlign: 'right' }}>
                             {awayGoals?.map((goal: Goal, i: number) => {
                                 return (
                                     <GoalCard key={i} goal={goal} />
@@ -53,7 +53,6 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
                             )}
                         </div>
                         <div style={{ placeContent: 'start' }}>
-                            <h6 style={{ textAlign: 'center' }}>{homeTeam}</h6>
                             {homeGoals?.map((goal: Goal, i: number) => {
                                 return (
                                     <GoalCard key={i} goal={goal} />

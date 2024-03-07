@@ -62,9 +62,9 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
             </Modal.Header>
             <Modal.Body>
                 <GameDetailsBody gameId={gameId} showGameModal={showGameModal} gameState={gameState} />
-                <GameDetailsScoring 
-                    gameState={gameState} 
-                    scoring={data?.summary?.scoring} 
+                <GameDetailsScoring
+                    gameState={gameState}
+                    scoring={data?.summary?.scoring}
                     awayTeam={data?.awayTeam?.abbrev}
                     homeTeam={data?.homeTeam?.abbrev}
                 />

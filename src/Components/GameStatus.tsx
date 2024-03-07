@@ -29,10 +29,10 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
         .then((res) => res.json())
         .then((data: ResponseObject = {}) => {
           console.log('\nGame score data:', data);
-          setPeriod(data.period);
-          setRemaining(data.clock.timeRemaining);
-          setRunning(data.clock.running);
-          setIntermission(data.clock.inIntermission);
+          setPeriod(data?.periodDescriptor?.number); // this value seems to change :(
+          setRemaining(data?.clock?.timeRemaining);
+          setRunning(data?.clock?.running);
+          setIntermission(data?.clock?.inIntermission);
         })
         .catch((err) => console.log('status component error: ', err));
     }
@@ -42,11 +42,11 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
     return <Spinner animation='grow' variant='success' size='sm' />
   }
 
-  return (  
-    <Badge bg={running ? 'success' : inIntermission ? 'warning' : 'light' } text={(!running && !inIntermission) ? 'dark' : 'light'}>
-        <span>
-          {remaining} - {inIntermission ? 'Int' : getPeriod(period) }
-        </span>
-        </Badge>
+  return (
+    <Badge bg={running ? 'success' : inIntermission ? 'warning' : 'light'} text={(!running && !inIntermission) ? 'dark' : 'light'}>
+      <span>
+        {remaining} - {inIntermission ? 'Int' : getPeriod(period)}
+      </span>
+    </Badge>
   );
 };
