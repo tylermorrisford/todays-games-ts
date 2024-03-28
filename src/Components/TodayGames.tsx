@@ -6,8 +6,9 @@ import NHLLogo from '../Assets/NHL_Logo_former.svg';
 import { GameStatus } from './GameStatus';
 import GameDetailsModal from './GameDetailsModal';
 import LoadingGames from './LoadingGames';
+import { TeamOdds } from './TeamOdds';
 import { Game, TeamRecord, TodayResponse, LogoImageProps } from '../types';
-import { getEndpoint } from '../Utils/helpers';
+import { getEndpoint, showOdds, parseOdds } from '../Utils/helpers';
 import { LogoImage } from './LogoImage';
 
 export const TodayGames: React.FunctionComponent = (): JSX.Element => {
@@ -131,6 +132,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                 let hScore: number = g.homeTeam.score;
                 // TODO: show other data based on game state
                 let gameState: string = g.gameState;
+                // let awayOdds: number = g.awayTeam.odds[0]?.value;
+                // let homeOdds: number = g.homeTeam.odds[0]?.value;
 
                 return (
                   <Card
@@ -150,7 +153,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                       }}
                     >
                       <LogoImage team={awayTeam} url={awayLogo} />
-                      {awayTeam}{' '}
+                      {awayTeam}{' '}{showOdds(gameState, g.startTimeUTC) ? <TeamOdds odds={parseOdds(g.awayTeam.odds)} /> : ''}
                       {gameState === 'LIVE' ||
                         gameState === 'FINAL' ||
                         gameState === 'OFF' ||
@@ -174,7 +177,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                       }}
                     >
                       <LogoImage team={homeTeam} url={homeLogo} />
-                      {homeTeam}{' '}
+                      {homeTeam}{' '}{showOdds(gameState, g.startTimeUTC) ? <TeamOdds odds={parseOdds(g.homeTeam.odds)} /> : ''}
                       {gameState === 'LIVE' ||
                         gameState === 'FINAL' ||
                         gameState === 'OFF' ||
