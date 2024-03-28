@@ -54,7 +54,8 @@ export const showOdds = (gameState: string, gameStartTime: string) => {
   if (isPreGame(gameState, gameStartTime)) {
     const today = dayjs().utc().format();
     const gameTime = dayjs(gameStartTime).utc().format();
-  return Math.abs(dayjs(today).diff(dayjs(gameTime), 'day')) < 2;
+    // only show odds for games within 1 day of today
+  return Math.abs(dayjs(today).diff(dayjs(gameTime), 'day')) < 1;
   } else {
     return false;
   }
