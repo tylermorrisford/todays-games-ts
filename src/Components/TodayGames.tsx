@@ -7,7 +7,7 @@ import { GameStatus } from './GameStatus';
 import GameDetailsModal from './GameDetailsModal';
 import LoadingGames from './LoadingGames';
 import { TeamOdds } from './TeamOdds';
-import { Game, TeamRecord, TodayResponse, LogoImageProps } from '../types';
+import { Game } from '../types';
 import { getEndpoint, showOdds, parseOdds } from '../Utils/helpers';
 import { LogoImage } from './LogoImage';
 

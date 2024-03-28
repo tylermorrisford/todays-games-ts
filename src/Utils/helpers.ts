@@ -2,11 +2,8 @@ import { BASE_URL } from '../constants';
 import dayjs from 'dayjs';
 
 var utc = require('dayjs/plugin/utc')
-var isToday = require('dayjs/plugin/isToday')
-var isTomorrow = require('dayjs/plugin/isTomorrow')
 dayjs.extend(utc)
-dayjs.extend(isToday)
-dayjs.extend(isTomorrow)
+
 
 export const getEndpoint = (path: string) => {
   return `${BASE_URL}${path}`;
@@ -50,7 +47,7 @@ export const isPreGame = (gameState: string, gameStartTime: string): boolean => 
   return gameState === "PRE" || gameState === "FUT";
 }
 
-export const showOdds = (gameState: string, gameStartTime: string) => {
+export const showOdds = (gameState: string, gameStartTime: string): boolean => {
   if (isPreGame(gameState, gameStartTime)) {
     const today = dayjs().utc().format();
     const gameTime = dayjs(gameStartTime).utc().format();
@@ -61,7 +58,7 @@ export const showOdds = (gameState: string, gameStartTime: string) => {
   }
   }
 
-export const parseOdds = (odds: Array<{providerId: number, value: string}>) => {
+export const parseOdds = (odds: Array<{providerId: number, value: string}>): number => {
   if (odds.some(o => o.providerId === 9)) {
     return Math.floor(parseInt(odds.find(o => o.providerId === 9)?.value!));
   } else if (odds.some(o => o.providerId === 7)) {
