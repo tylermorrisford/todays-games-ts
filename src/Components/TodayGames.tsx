@@ -25,6 +25,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     return dayjs(isoTime).format('h:mm A');
   };
 
+  // const test = 'https://api-web.nhle.com/v1/schedule/2024-06-24'
   const currentDate = React.useRef<string>(dayjs().format('YYYY-MM-DD'));
 
   const nextDay = (): void => {
@@ -153,7 +154,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                       }}
                     >
                       <LogoImage team={awayTeam} url={awayLogo} />
-                      {awayTeam}{' '}{showOdds(gameState, g.startTimeUTC) ? <TeamOdds odds={parseOdds(g.awayTeam.odds)} /> : ''}
+                      {awayTeam}{' '}
+                      {showOdds(gameState, g.startTimeUTC, g.awayTeam.odds) ? <TeamOdds odds={parseOdds(g.awayTeam.odds)} /> : ''}
                       {gameState === 'LIVE' ||
                         gameState === 'FINAL' ||
                         gameState === 'OFF' ||
@@ -177,7 +179,8 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
                       }}
                     >
                       <LogoImage team={homeTeam} url={homeLogo} />
-                      {homeTeam}{' '}{showOdds(gameState, g.startTimeUTC) ? <TeamOdds odds={parseOdds(g.homeTeam.odds)} /> : ''}
+                      {homeTeam}{' '}
+                      {showOdds(gameState, g.startTimeUTC, g.homeTeam.odds) ? <TeamOdds odds={parseOdds(g.homeTeam.odds)} /> : ''}
                       {gameState === 'LIVE' ||
                         gameState === 'FINAL' ||
                         gameState === 'OFF' ||

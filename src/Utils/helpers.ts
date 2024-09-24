@@ -47,8 +47,8 @@ export const isPreGame = (gameState: string, gameStartTime: string): boolean => 
   return gameState === "PRE" || gameState === "FUT";
 }
 
-export const showOdds = (gameState: string, gameStartTime: string): boolean => {
-  if (isPreGame(gameState, gameStartTime)) {
+export const showOdds = (gameState: string, gameStartTime: string, odds: Array<{providerId: number, value: string}>): boolean => {
+  if (odds && isPreGame(gameState, gameStartTime)) {
     const today = dayjs().utc().format();
     const gameTime = dayjs(gameStartTime).utc().format();
     // only show odds for games within 1 day of today
@@ -59,7 +59,7 @@ export const showOdds = (gameState: string, gameStartTime: string): boolean => {
   }
 
 export const parseOdds = (odds: Array<{providerId: number, value: string}>): number => {
-  if (odds.some(o => o.providerId === 9)) {
+  if (odds?.some(o => o.providerId === 9)) {
     return Math.floor(parseInt(odds.find(o => o.providerId === 9)?.value!));
   } else if (odds.some(o => o.providerId === 7)) {
     return Math.floor(parseInt(odds.find(o => o.providerId === 7)?.value!));
