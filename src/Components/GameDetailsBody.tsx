@@ -105,6 +105,8 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
                         }
                     >
                         <span>
+                            {console.log(data)
+                            }
                             {data?.gameState === 'OFF' || data?.gameState === 'FINAL' ? 'Final' : data?.clock?.timeRemaining} -{' '}
                             {data?.clock?.inIntermission ? 'Int' : getPeriod(data?.periodDescriptor?.number)}
                         </span>
