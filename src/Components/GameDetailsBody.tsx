@@ -11,6 +11,35 @@ interface GameDetailsBodyProps {
     gameState?: string;
 }
 
+interface GameClock {
+    inIntermission: boolean;
+    running: boolean;
+    secondsRemaining: number;
+    timeRemaining: string;
+}
+
+interface PeriodDescriptor {
+    maxRegulationPeriods: number,
+    number: number,
+    periodType: string,
+}
+
+const gameClockManager = (state: any, clock: GameClock, periodDescriptor: PeriodDescriptor, tvBroadcasts: Array<any>): string => {
+    if (clock?.inIntermission) {
+        return `${getPeriod(periodDescriptor.number)} Int`;
+    }
+    if (state === 'OFF' || state === 'FINAL') {
+        return `Final - ${getPeriod(periodDescriptor.number)}`;
+    }
+    if (state === 'FUT' || state === 'PRE') {
+        return `on ${tvBroadcasts.filter((b) => b.network === "NHLN" || b.market === "H").map((b) => `${b.network} (${b.countryCode})`).join(', ')}`;
+    }
+    if (state === 'LIVE'|| state === 'CRIT') {
+        return clock?.timeRemaining + ' - ' + getPeriod(periodDescriptor.number);
+    }
+    return '';
+};
+
 const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
     showGameModal,
     gameId,
@@ -34,7 +63,7 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
         if (gameState && isGameLive(gameState)) {
             const interval = setInterval(() => {
                 mutate(getEndpoint(`/api/gamecenter`));
-            }, 3000); // Attempt to avoid concurrent requests
+            }, 5000); // Attempt to avoid concurrent requests
 
             return () => {
                 clearInterval(interval);
@@ -104,12 +133,7 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
                                 : 'light'
                         }
                     >
-                        <span>
-                            {console.log(data)
-                            }
-                            {data?.gameState === 'OFF' || data?.gameState === 'FINAL' ? 'Final' : data?.clock?.timeRemaining} -{' '}
-                            {data?.clock?.inIntermission ? 'Int' : getPeriod(data?.periodDescriptor?.number)}
-                        </span>
+                        {gameClockManager(data?.gameState, data?.clock, data?.periodDescriptor, data?.tvBroadcasts)}
                     </Badge>
                 </div>
                 <div style={{ textAlign: 'center' }}>

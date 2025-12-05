@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-// import Spinner from 'react-bootstrap/Spinner';
 import Modal from 'react-bootstrap/Modal';
 import useSWR, { mutate } from 'swr';
 import { getEndpoint, isGameLive } from '../Utils/helpers';
@@ -10,7 +9,7 @@ import GameDetailsScoring from './GameDetailsScoring';
 
 interface GameDetailsModalProps {
     showGameModal: boolean;
-    setShowGameModal: React.Dispatch<React.SetStateAction<boolean>>;
+    handleCloseModal: React.Dispatch<React.SetStateAction<void>>;
     gameId: number;
     gameState: string;
     threeMinRecap?: string;
@@ -18,7 +17,7 @@ interface GameDetailsModalProps {
 
 const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     showGameModal,
-    setShowGameModal,
+    handleCloseModal,
     gameId,
     gameState,
     threeMinRecap,
@@ -56,7 +55,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     console.log('game details `/landing` (not polled): ', data);
 
     return (
-        <Modal size='lg' show={showGameModal} onHide={() => setShowGameModal(false)}>
+        <Modal size='lg' show={showGameModal} onHide={() => handleCloseModal()}>
             <Modal.Header closeButton>
                 <Modal.Title>Game Details for {getModalTitle()}</Modal.Title>
             </Modal.Header>

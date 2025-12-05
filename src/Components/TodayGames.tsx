@@ -74,6 +74,12 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
     setShowGameModal(true);
   }
 
+  const handleCloseModal = (): void => {
+    setShowGameModal(false);
+    setGameDetailsId(0);
+    setGameState('');
+}
+
   const arrowButtonStyle = {
     border: '1px solid grey',
     borderRadius: '5px',
@@ -221,7 +227,7 @@ export const TodayGames: React.FunctionComponent = (): JSX.Element => {
         )}
         <GameDetailsModal
           showGameModal={showGameModal}
-          setShowGameModal={setShowGameModal}
+          handleCloseModal={handleCloseModal}
           gameId={gameDetailsId}
           gameState={gameState}
         />

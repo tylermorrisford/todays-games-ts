@@ -43,12 +43,12 @@ export const showScoring = (gameState: string): boolean => {
   || gameState === "SO";
 }
 
-export const isPreGame = (gameState: string, gameStartTime: string): boolean => {
+export const isPreGame = (gameState: string): boolean => {
   return gameState === "PRE" || gameState === "FUT";
 }
 
 export const showOdds = (gameState: string, gameStartTime: string, odds: Array<{providerId: number, value: string}>): boolean => {
-  if (odds && isPreGame(gameState, gameStartTime)) {
+  if (odds && isPreGame(gameState)) {
     const today = dayjs().utc().format();
     const gameTime = dayjs(gameStartTime).utc().format();
     // only show odds for games within 1 day of today
