@@ -28,13 +28,14 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({
       })
         .then((res) => res.json())
         .then((data: ResponseObject = {}) => {
-          console.log('\nGame score data:', data);
-          setPeriod(data?.periodDescriptor?.number); // this value seems to change :(
+          console.log('game status data', data);
+          
+          setPeriod(data?.periodDescriptor?.number);
           setRemaining(data?.clock?.timeRemaining);
           setRunning(data?.clock?.running);
           setIntermission(data?.clock?.inIntermission);
         })
-        .catch((err) => console.log('status component error: ', err));
+        .catch((err) => console.log('game status component error: ', err));
     }
   }, [id]);
 

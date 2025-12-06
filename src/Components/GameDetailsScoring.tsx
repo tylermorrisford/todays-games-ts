@@ -1,6 +1,8 @@
 import React from "react";
 import GoalCard from "./GoalCard";
+import type { Goal } from "../types";
 import { showScoring } from "../Utils/helpers";
+
 
 interface GameDetailsScoringProps {
     gameState: string;
@@ -9,31 +11,22 @@ interface GameDetailsScoringProps {
     homeTeam?: string;
 }
 
-interface Goal {
-    strength: string;
-    name: {
-        default: string;
-    }
-    headshot: string;
-    shotType: string;
-    timeInPeriod: string;
-    teamAbbrev: {
-        default: string;
-    }
-    goalsToDate: number;
-}
-
 const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
     gameState,
     scoring,
     awayTeam,
     homeTeam
 }): JSX.Element => {
-
-    const allGoals = scoring?.reduce((acc: Goal[], period: any) => {
-        return acc.concat(period.goals);
-    }, [] as Goal[]);
-
+    console.log('scoring', scoring);
+    
+    const allGoals = scoring?.flatMap((period: any) => 
+        period.goals.map((goal: Goal) => ({
+            ...goal,
+            period: period.periodDescriptor.number
+        }))
+    );
+    console.log('allGoals', allGoals);
+    
     const awayGoals = allGoals?.filter((goal: Goal) => goal?.teamAbbrev?.default === awayTeam);
     const homeGoals = allGoals?.filter((goal: Goal) => goal?.teamAbbrev?.default === homeTeam);
 

@@ -88,8 +88,8 @@ export type SeasonProps = {
 };
 
 export type LeaderProps = {
-  season: string;
   category: string;
+  type: string;
 };
 
 export type Leader = {
@@ -154,4 +154,5 @@ export type Goal = {
         default: string;
     }
     goalsToDate: number;
+    period?: number;
 }

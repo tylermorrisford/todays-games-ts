@@ -52,7 +52,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
         }
         return gameId.toString();
     }
-    console.log('game details `/landing` (not polled): ', data);
+    // console.log('game details `/landing` (not polled): ', data);
 
     return (
         <Modal size='lg' show={showGameModal} onHide={() => handleCloseModal()}>

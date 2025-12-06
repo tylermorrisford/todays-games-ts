@@ -3,27 +3,28 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Leader, LeaderResponse, LeaderProps } from '../types';
-// EXAMPLE of the leaders API - will return an empty response without category/season
-// https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=goals&season=20202021.
+import { getEndpoint } from '../Utils/helpers';
+// EXAMPLE of the leaders API - needs category name
+//https://api-web.nhle.com/v1/skater-stats-leaders/current?categories=goals&limit=5
 
 export const Leaders: React.FunctionComponent<LeaderProps> = ({
-  season,
   category,
+  type,
 }): JSX.Element => {
   const [leaders, setLeaders] = React.useState<Leader[]>([]);
 
-  React.useEffect(() => {
-    if (season) {
-      fetch(
-        `https://statsapi.web.nhl.com/api/v1/stats/leaders?leaderCategories=${category}&season=${season}`
-      )
-        .then((res) => res.json())
-        .then((data: LeaderResponse) => {
-          // console.log(`${category} leaders`, data);
-          setLeaders(data.leagueLeaders[0].leaders);
-        });
-    }
-  }, [season, category]);
+    fetch(getEndpoint(`/api/${type}-leaders`), {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ category }),
+          }).then((res) => res.json())
+          .then((data: any) => {
+              setLeaders(data[`${category}`]);
+          })
+          .catch((err) => console.log(`leaders component (${category}) error: `, err));
+
 
   const leaderStyle = {
     display: 'inline-block',
@@ -43,7 +44,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
   const columnStyle = {
     paddingRight: 0,
   };
-
+  
   return (
     <>
       {leaders.length ? (
@@ -53,13 +54,13 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
             <strong>{category} Leaders</strong>
           </Card.Header>
           <Card.Body>
-            {leaders.map((leader: Leader, i: number) => {
+            {leaders.map((leader: any, i: number) => {
               const style =
                 i === 0 ? { ...topLeaderStyle, ...columnStyle } : columnStyle;
               return (
-                <Row key={leader.person.fullName}>
+                <Row key={leader.lastName.default}>
                   <Col xs={9} sm={8} md={9} style={style}>
-                    {leader.person.fullName}, {leader.team.name}
+                    {leader.firstName.default} {leader.lastName.default}, {leader.teamName.default}
                   </Col>
                   <Col xs={3} sm={4} md={3} style={columnStyle}>
                     {category === 'shootingPctg'
