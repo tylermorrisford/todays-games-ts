@@ -1,5 +1,5 @@
 # Today's NHL Games :ice_hockey:
-An API-first NHL fan dashboard, making use of [some amazing work](https://gitlab.com/dword4/nhlapi/-/blob/master/stats-api.md) documenting the recently-changed NHL API. Currently the client handles all requests through a proxy as the endpoint is public, and uses react-bootstrap for layout and a few helpful components. Lots of things need to be fixed or added :)
+An API-first NHL fan dashboard, making use of [some nice work](https://github.com/Zmalski/NHL-API-Reference) documenting the recently-changed NHL API. Currently the client handles all requests through a proxy, and uses react-bootstrap for layout and a few helpful components. Lots of things need to be fixed or added :)
 
 ## Install
 - Clone this repo
