@@ -18,13 +18,13 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
     homeTeam
 }): JSX.Element => {
     console.log('scoring', scoring);
-    
-    const allGoals = scoring?.flatMap((period: any) => 
+
+    const allGoals: Goal[] = scoring?.flatMap((period: any) =>
         period.goals.map((goal: Goal) => ({
             ...goal,
             period: period.periodDescriptor.number
         }))
-    );
+    ) ?? [];
     console.log('allGoals', allGoals);
     
     const awayGoals = allGoals?.filter((goal: Goal) => goal?.teamAbbrev?.default === awayTeam);
@@ -32,7 +32,7 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
 
     return (
         <div>
-            {showScoring(gameState) && (
+            {showScoring(gameState) && allGoals?.length > 0 && (
                 <>
                     <hr style={{ width: '80%', margin: '5px auto', color: 'grey' }} />
                     <h6 style={{ textAlign: 'center' }}>Scoring</h6>
