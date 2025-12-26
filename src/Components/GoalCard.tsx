@@ -20,7 +20,7 @@ const GoalCard: React.FunctionComponent<GoalProps> = ({ goal }): JSX.Element => 
                     style={{ borderRadius: '20px'}}
                     />
                 <div >{goal.teamAbbrev.default}</div>
-                    </div>
+                </div>
                 <div style={{ placeSelf: 'center end' }}>
                     {goal.name.default} ({goal.goalsToDate})<br />
                     <small>{goal.shotType} - {goal.strength}</small><br/>

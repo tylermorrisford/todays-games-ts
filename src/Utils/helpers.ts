@@ -69,3 +69,7 @@ export const parseOdds = (odds: Array<{providerId: number, value: string}>): num
     return parseInt(odds[0].value);
   }
 }
+
+export const capitalize = (s: string) => {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}

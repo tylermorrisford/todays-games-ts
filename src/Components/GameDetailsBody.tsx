@@ -24,7 +24,7 @@ interface PeriodDescriptor {
     periodType: string,
 }
 
-const gameClockManager = (state: any, clock: GameClock, periodDescriptor: PeriodDescriptor, tvBroadcasts: Array<any>): string => {
+const gameClockManager = (state: string, clock: GameClock, periodDescriptor: PeriodDescriptor, tvBroadcasts: Array<any>): string => {
     if (clock?.inIntermission) {
         return `${getPeriod(periodDescriptor.number)} Int`;
     }

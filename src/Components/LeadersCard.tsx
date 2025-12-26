@@ -2,12 +2,13 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Leader, LeaderResponse, LeaderProps } from '../types';
-import { getEndpoint } from '../Utils/helpers';
+import { Leader, LeaderProps } from '../types';
+import { getEndpoint, capitalize } from '../Utils/helpers';
+
 // EXAMPLE of the leaders API - needs category name
 //https://api-web.nhle.com/v1/skater-stats-leaders/current?categories=goals&limit=5
 
-export const Leaders: React.FunctionComponent<LeaderProps> = ({
+export const LeadersCard: React.FunctionComponent<LeaderProps> = ({
   category,
   type,
 }): JSX.Element => {
@@ -51,7 +52,7 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
         <Card className='shadow' style={leaderStyle}>
           {' '}
           <Card.Header style={{ fontSize: '1.2em', backgroundColor: 'white' }}>
-            <strong>{category} Leaders</strong>
+            <strong>{capitalize(category)}</strong>
           </Card.Header>
           <Card.Body>
             {leaders.map((leader: any, i: number) => {
@@ -62,10 +63,8 @@ export const Leaders: React.FunctionComponent<LeaderProps> = ({
                   <Col xs={9} sm={8} md={9} style={style}>
                     {leader.firstName.default} {leader.lastName.default}, {leader.teamName.default}
                   </Col>
-                  <Col xs={3} sm={4} md={3} style={columnStyle}>
-                    {category === 'shootingPctg'
-                      ? Number.parseFloat(leader.value).toFixed(2)
-                      : leader.value}
+                  <Col xs={3} sm={4} md={3} style={style}>
+                    {leader.value}
                   </Col>
                 </Row>
               );
