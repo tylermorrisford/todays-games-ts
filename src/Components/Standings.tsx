@@ -1,12 +1,12 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
-import { Record, StandingsResponse, SeasonProps } from '../types';
+// import { Record, StandingsResponse, SeasonProps } from '../types';
 import { getEndpoint, getRecord } from '../Utils/helpers';
 import { StandingsLogoImage } from './LogoImage';
 import _ from 'lodash';
 
-export const Standings: React.FunctionComponent = (): JSX.Element => {
+export const Standings: React.FunctionComponent = React.memo((): JSX.Element => {
   const [leagueStandings, setLeagueStandings] = React.useState<any[]>([]);
   const [conferenceStandings, setConferenceStandings] = React.useState<any[]>([]);
   const [divisionStandings, setDivisionStandings] = React.useState<any[]>([]);
@@ -108,4 +108,4 @@ export const Standings: React.FunctionComponent = (): JSX.Element => {
       </Table>
     </div>
   );
-};
+});

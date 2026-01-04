@@ -8,7 +8,7 @@ import { getEndpoint, capitalize } from '../Utils/helpers';
 // EXAMPLE of the leaders API - needs category name
 //https://api-web.nhle.com/v1/skater-stats-leaders/current?categories=goals&limit=5
 
-export const LeadersCard: React.FunctionComponent<LeaderProps> = ({
+export const LeadersCard: React.FunctionComponent<LeaderProps> = React.memo(({
   category,
   type,
 }): JSX.Element => {
@@ -76,4 +76,4 @@ export const LeadersCard: React.FunctionComponent<LeaderProps> = ({
       )}
     </>
   );
-};
+});
