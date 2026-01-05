@@ -155,4 +155,5 @@ export type Goal = {
     }
     goalsToDate: number;
     period?: number;
+    highlightClipSharingUrl?: string;
 }
