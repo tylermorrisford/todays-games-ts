@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Table } from '@commercetools/nimbus';
+import { Box, Button, Table } from '@commercetools/nimbus';
 import { getEndpoint, getRecord } from '../Utils/helpers';
 import { StandingsLogoImage } from './LogoImage';
 import useSWR from 'swr';
@@ -66,6 +66,7 @@ export const Standings: React.FunctionComponent = React.memo(() => {
           </Button>
         ))}
       </div>
+      <Box overflowX="auto">
       <Table.Root>
         <Table.Header>
           <Table.Row>
@@ -91,6 +92,7 @@ export const Standings: React.FunctionComponent = React.memo(() => {
           ))}
         </Table.Body>
       </Table.Root>
+      </Box>
     </div>
   );
 });

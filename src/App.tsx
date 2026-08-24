@@ -1,7 +1,7 @@
 import './App.css';
 import { TodayGames } from './Components/TodayGames';
 import { Standings } from './Components/Standings';
-import { Box, Flex } from '@commercetools/nimbus';
+import { Box, Flex, Link } from '@commercetools/nimbus';
 import { teefDev } from './constants';
 
 export default function App() {
@@ -16,9 +16,9 @@ export default function App() {
         </Box>
       </Flex>
       <Flex justifyContent="center" marginTop="600" marginBottom="2000">
-        <Box width="50%" textAlign="center">
+        <Box width={{ base: '100%', md: '50%' }} textAlign="center">
           <hr />
-          <small>Info about the developer is <a href={teefDev}>here</a>.</small>
+          <small>Info about the developer is <Link href={teefDev} target="_blank" rel="noopener noreferrer">here</Link>.</small>
         </Box>
       </Flex>
     </Box>
