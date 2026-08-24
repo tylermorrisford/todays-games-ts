@@ -17,15 +17,12 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
     awayTeam,
     homeTeam
 }) => {
-    console.log('scoring', scoring);
-
     const allGoals: Goal[] = scoring?.flatMap((period: any) =>
         period.goals.map((goal: Goal) => ({
             ...goal,
             period: period.periodDescriptor.number
         }))
     ) ?? [];
-    console.log('allGoals', allGoals);
     
     const awayGoals = allGoals?.filter((goal: Goal) => goal?.teamAbbrev?.default === awayTeam);
     const homeGoals = allGoals?.filter((goal: Goal) => goal?.teamAbbrev?.default === homeTeam);

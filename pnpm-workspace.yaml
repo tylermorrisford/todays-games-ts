@@ -1,2 +1,3 @@
 allowBuilds:
+  '@commercetools/nimbus': false
   esbuild: false

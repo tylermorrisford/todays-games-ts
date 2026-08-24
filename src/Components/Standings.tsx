@@ -1,111 +1,96 @@
 import React from 'react';
-import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
-// import { Record, StandingsResponse, SeasonProps } from '../types';
+import { Button, Table } from '@commercetools/nimbus';
 import { getEndpoint, getRecord } from '../Utils/helpers';
 import { StandingsLogoImage } from './LogoImage';
+import useSWR from 'swr';
 import _ from 'lodash';
+import type { StandingsResponse, StandingRecord } from '../types';
+
+type DisplayGroup = 'Division' | 'Conference' | 'League';
 
 export const Standings: React.FunctionComponent = React.memo(() => {
-  const [leagueStandings, setLeagueStandings] = React.useState<any[]>([]);
-  const [conferenceStandings, setConferenceStandings] = React.useState<any[]>([]);
-  const [divisionStandings, setDivisionStandings] = React.useState<any[]>([]);
-  const [displayGroup, setDisplayGroup] = React.useState<'Division' | 'Conference' | 'League'>('Division');
+  const [displayGroup, setDisplayGroup] = React.useState<DisplayGroup>('Division');
 
-  const getDisplayStandings = (displayString: string) => {
-    switch (displayString) {
-      case 'Division':
-        return divisionStandings;
-      case 'Conference':
-        return conferenceStandings;
-      case 'League':
-        return leagueStandings;
-      default:
-        return divisionStandings;
+  const { data } = useSWR<StandingsResponse>(
+    getEndpoint('/api/standings/'),
+    (url) => fetch(url).then((res) => res.json()),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      dedupingInterval: 3_600_000,
     }
-  }
+  );
+
+  const leagueStandings = data?.standings ?? [];
+  const conferenceStandings = _.sortBy(leagueStandings, ['conferenceName', 'conferenceSequence']);
+  const divisionStandings = _.sortBy(leagueStandings, ['conferenceName', 'divisionName', 'divisionSequence']);
+
+  const getDisplayStandings = (): any[] => {
+    switch (displayGroup) {
+      case 'Conference': return conferenceStandings;
+      case 'League': return leagueStandings;
+      default: return divisionStandings;
+    }
+  };
 
   const getRank = (record: any): number => {
-    switch(displayGroup) {
-      case 'Division':
-        return record.divisionSequence;
-      case 'Conference':
-        return record.conferenceSequence;
-      case 'League':
-        return record.leagueSequence;
-      default:
-        return record.divisionSequence;
+    switch (displayGroup) {
+      case 'Conference': return record.conferenceSequence;
+      case 'League': return record.leagueSequence;
+      default: return record.divisionSequence;
     }
-  }
-
-  React.useEffect(() => {
-    fetch(getEndpoint('/api/standings/'))
-      .then((res) => res.json())
-      .then((data: any) => {
-        console.log('standings data', data);
-        setLeagueStandings(data?.standings);
-        setConferenceStandings(_.sortBy(data?.standings, ['conferenceName','conferenceSequence']));
-        setDivisionStandings(_.sortBy(data?.standings, ['conferenceName','divisionName','divisionSequence']));
-      });
-  }, []);
-
-  const buttonStyle = {
-    border: '1px solid grey',
-    borderRadius: '5px',
-    padding: '5px',
-    margin: '5px',
-    width: '40%',
-    backgroundColor: 'white',
-    color: 'black',
   };
+
+  const groups: DisplayGroup[] = ['Division', 'Conference', 'League'];
 
   return (
     <div
-      className='shadow-sm'
       style={{
         border: '1px solid whitesmoke',
         borderRadius: '5px',
         padding: '10px',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
       }}
     >
       <h3>{displayGroup} Standings</h3>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button onClick={() => setDisplayGroup('Division')} style={buttonStyle}>Division</Button>
-        <Button onClick={() => setDisplayGroup('Conference')} style={buttonStyle}>Conference</Button>
-        <Button onClick={() => setDisplayGroup('League')} style={buttonStyle}>League</Button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+        {groups.map((g) => (
+          <Button
+            key={g}
+            variant={displayGroup === g ? 'solid' : 'secondary'}
+            size="sm"
+            onPress={() => setDisplayGroup(g)}
+            style={{ width: '32%' }}
+          >
+            {g}
+          </Button>
+        ))}
       </div>
-      <Table responsive borderless hover>
-        <thead>
-          <tr>
-            <td>Rank</td>
-            <td>Team</td>
-            <td>Rec</td>
-            <td>ROW</td>
-            <td>Pts</td>
-          </tr>
-        </thead>
-        <tbody>
-          {getDisplayStandings(displayGroup).map((record, idx) => {
-            return (
-              <tr key={record.placeName.default + idx}>
-                <td>{getRank(record)}</td>
-                <td>
-                  <span>
-                    <StandingsLogoImage
-                      url={record.teamLogo}
-                      team={record.teamName}
-                    />{' '}
-                    {record.teamAbbrev.default}
-                  </span>
-                </td>
-                <td>{getRecord(record)}</td>
-                <td>{record.regulationPlusOtWins}</td>
-                <td>{record.points}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
+      <Table.Root>
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeader>Rank</Table.ColumnHeader>
+            <Table.ColumnHeader>Team</Table.ColumnHeader>
+            <Table.ColumnHeader>Rec</Table.ColumnHeader>
+            <Table.ColumnHeader>ROW</Table.ColumnHeader>
+            <Table.ColumnHeader>Pts</Table.ColumnHeader>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {getDisplayStandings().map((record: StandingRecord, idx: number) => (
+            <Table.Row key={record.placeName.default + idx}>
+              <Table.Cell>{getRank(record)}</Table.Cell>
+              <Table.Cell>
+                <StandingsLogoImage url={record.teamLogo} team={record.teamName} />
+                {' '}{record.teamAbbrev.default}
+              </Table.Cell>
+              <Table.Cell>{getRecord(record)}</Table.Cell>
+              <Table.Cell>{record.regulationPlusOtWins}</Table.Cell>
+              <Table.Cell>{record.points}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
     </div>
   );
 });

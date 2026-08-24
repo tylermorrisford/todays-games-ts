@@ -1,53 +1,32 @@
 import React from 'react';
-import Spinner from 'react-bootstrap/Spinner';
-import Badge from 'react-bootstrap/Badge';
-import { GameIdProps } from '../types';
+import { Badge, LoadingSpinner } from '@commercetools/nimbus';
+import useSWR from 'swr';
+import type { GameIdProps, GamecenterResponse } from '../types';
 import { getPeriod, getEndpoint } from '../Utils/helpers';
 
-// TODO: type this response object
-interface ResponseObject {
-  [key: string]: any;
-}
-
-export const GameStatus: React.FunctionComponent<GameIdProps> = ({
-  id,
-}) => {
-  const [period, setPeriod] = React.useState<number>(0);
-  const [remaining, setRemaining] = React.useState<string>('');
-  const [running, setRunning] = React.useState<boolean>(false);
-  const [inIntermission, setIntermission] = React.useState<boolean>(false);
-
-  React.useEffect(() => {
-    if (id !== undefined) {
-      fetch(getEndpoint(`/api/gamecenter`), {
+export const GameStatus: React.FunctionComponent<GameIdProps> = ({ id }) => {
+  const { data, isLoading } = useSWR<GamecenterResponse>(
+    [getEndpoint('/api/gamecenter'), id],
+    async ([url, gameId]) => {
+      const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: id }),
-      })
-        .then((res) => res.json())
-        .then((data: ResponseObject = {}) => {
-          console.log('game status data', data);
-          
-          setPeriod(data?.periodDescriptor?.number);
-          setRemaining(data?.clock?.timeRemaining);
-          setRunning(data?.clock?.running);
-          setIntermission(data?.clock?.inIntermission);
-        })
-        .catch((err) => console.log('game status component error: ', err));
-    }
-  }, [id]);
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: gameId }),
+      });
+      return response.json();
+    },
+    { refreshInterval: 30_000 }
+  );
 
-  if (remaining === '') {
-    return <Spinner animation='grow' variant='success' size='sm' />
+  if (isLoading || !data) {
+    return <LoadingSpinner size="xs" aria-label="Loading game status" />;
   }
 
+  const { clock, periodDescriptor } = data;
+
   return (
-    <Badge bg={running ? 'success' : inIntermission ? 'warning' : 'light'} text={(!running && !inIntermission) ? 'dark' : 'light'}>
-      <span>
-        {remaining} - {inIntermission ? 'Int' : getPeriod(period)}
-      </span>
+    <Badge colorPalette={clock.running ? 'positive' : clock.inIntermission ? 'warning' : 'neutral'}>
+      {clock.timeRemaining} - {clock.inIntermission ? 'Int' : getPeriod(periodDescriptor.number)}
     </Badge>
   );
 };

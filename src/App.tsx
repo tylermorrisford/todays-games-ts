@@ -1,34 +1,26 @@
 import './App.css';
 import { TodayGames } from './Components/TodayGames';
 import { Standings } from './Components/Standings';
-// import { StatsLeaders } from './Components/StatsLeaders';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Box, Flex } from '@commercetools/nimbus';
 import { teefDev } from './constants';
 
 export default function App() {
-
   return (
-
-    <Container>
-      <Row className="mt-3">
-        <Col sm={12} md={4}>
+    <Box maxWidth="1200px" margin="0 auto" paddingX="400" paddingTop="400">
+      <Flex direction={{ base: 'column', md: 'row' }} gap="800" alignItems="flex-start">
+        <Box flex="2" minWidth="0">
           <TodayGames />
-        </Col>
-        <Col sm={12} md={{ span: 6, offset: 1 }} className="mt-3">
+        </Box>
+        <Box flex="3" minWidth="0">
           <Standings />
-        </Col>
-      </Row>
-      {/* <StatsLeaders /> */}
-      <Row>
-        <Col className="mt-3 mb-5" sm={12} md={{ span: 6, offset: 3 }}>
+        </Box>
+      </Flex>
+      <Flex justifyContent="center" marginTop="600" marginBottom="2000">
+        <Box width="50%" textAlign="center">
           <hr />
           <small>Info about the developer is <a href={teefDev}>here</a>.</small>
-        </Col>
-      </Row>
-    </Container>
+        </Box>
+      </Flex>
+    </Box>
   );
 }
-
-

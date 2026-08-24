@@ -1,9 +1,9 @@
 import { BASE_URL } from '../constants';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import type { StandingRecord, Odds } from '../types';
 
-import utc from 'dayjs/plugin/utc'
-dayjs.extend(utc)
-
+dayjs.extend(utc);
 
 export const getEndpoint = (path: string) => {
   return `${BASE_URL}${path}`;
@@ -11,65 +11,49 @@ export const getEndpoint = (path: string) => {
 
 export const getPeriod = (period: number): string => {
   switch (period) {
-    case 1:
-      return '1st';
-    case 2:
-      return '2nd';
-    case 3:
-      return '3rd';
-    case 4:
-      return 'OT';
-    case 5:
-      return 'SO';
-    default:
-      return 'not found';
+    case 1: return '1st';
+    case 2: return '2nd';
+    case 3: return '3rd';
+    case 4: return 'OT';
+    case 5: return 'SO';
+    default: return '';
   }
 };
 
-export const getRecord = (recObj: Object | any): string => {
-  return `${recObj.wins}-${recObj.losses}-${recObj.otLosses}`;
+export const getRecord = (record: StandingRecord): string => {
+  return `${record.wins}-${record.losses}-${record.otLosses}`;
 };
 
 export const isGameLive = (gameState: string): boolean => {
-  return gameState === "LIVE" || gameState === "CRIT";
-}
+  return gameState === 'LIVE' || gameState === 'CRIT';
+};
 
-export const showScoring = (gameState: string): boolean => {
-  return gameState === "LIVE" 
-  || gameState === "CRIT" 
-  || gameState === "FINAL" 
-  || gameState === "OFF" 
-  || gameState === "OT" 
-  || gameState === "SO";
-}
+export const isGameScored = (gameState: string): boolean => {
+  return gameState === 'LIVE' || gameState === 'CRIT' || gameState === 'FINAL' || gameState === 'OFF';
+};
 
 export const isPreGame = (gameState: string): boolean => {
-  return gameState === "PRE" || gameState === "FUT";
-}
+  return gameState === 'PRE' || gameState === 'FUT';
+};
 
-export const showOdds = (gameState: string, gameStartTime: string, odds: Array<{providerId: number, value: string}>): boolean => {
-  if (odds && isPreGame(gameState)) {
-    const today = dayjs().utc().format();
-    const gameTime = dayjs(gameStartTime).utc().format();
-    // only show odds for games within 1 day of today
+export const showScoring = (gameState: string): boolean => {
+  return gameState === 'LIVE'
+    || gameState === 'CRIT'
+    || gameState === 'FINAL'
+    || gameState === 'OFF'
+    || gameState === 'OT'
+    || gameState === 'SO';
+};
+
+export const showOdds = (gameState: string, gameStartTime: string, odds: Odds[]): boolean => {
+  if (!odds || !isPreGame(gameState)) return false;
+  const today = dayjs().utc().format();
+  const gameTime = dayjs(gameStartTime).utc().format();
   return Math.abs(dayjs(today).diff(dayjs(gameTime), 'day')) < 1;
-  } else {
-    return false;
-  }
-  }
+};
 
-export const parseOdds = (odds: Array<{providerId: number, value: string}>): number => {
-  if (odds?.some(o => o.providerId === 9)) {
-    return Math.floor(parseInt(odds.find(o => o.providerId === 9)?.value!));
-  } else if (odds.some(o => o.providerId === 7)) {
-    return Math.floor(parseInt(odds.find(o => o.providerId === 7)?.value!));
-  } else if (odds.some(o => o.providerId === 2)) {
-    return Math.floor(parseInt(odds.find(o => o.providerId === 2)?.value!));
-  } else {
-    return parseInt(odds[0].value);
-  }
-}
-
-export const capitalize = (s: string) => {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
+export const parseOdds = (odds: Odds[]): number => {
+  const pick = (providerId: number) => odds.find(o => o.providerId === providerId);
+  const preferred = pick(9) ?? pick(7) ?? pick(2) ?? odds[0];
+  return Math.floor(parseInt(preferred.value));
+};

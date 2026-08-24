@@ -1,159 +1,149 @@
-export type Team = {
-  id: number;
-  name: string;
-  link: string;
-};
+// ─── Shared primitives ───────────────────────────────────────────────────────
 
-export type TeamRecord = {
-  wins: number;
-  losses: number;
-  ot: number;
-};
+export type GameState = 'LIVE' | 'CRIT' | 'FINAL' | 'OFF' | 'FUT' | 'PRE';
 
-export type Game = {
-  teams: {
-    away: {
-      leagueRecord: TeamRecord;
-      score: number;
-      team: Team;
-    };
-    home: {
-      leagueRecord: TeamRecord;
-      score: number;
-      team: Team;
-    };
-  };
-  status: {
-    abstractGameState: string;
-  };
-  gameDate: Date;
-  gamePk: number;
-};
-
-export type GameIdProps = {
-  id: number;
-};
-
-export type Record = {
-  conference: {
-    id: number;
-    link: string;
-    name: string;
-  };
-  division: {
-    abbreviation: string;
-    id: number;
-    link: string;
-    name: string;
-    nameShort: string;
-  };
-  league: {
-    id: number;
-    link: string;
-    name: string;
-  };
-  teamRecords: [
-    {
-      divisionRank: string;
-      points: number;
-      row: number;
-      clinchIndicator: string;
-      leagueRecord: {
-        wins: number;
-        losses: number;
-        ot: number;
-        type: string;
-      };
-      team: Team;
-    }
-  ];
-};
-
-export type StandingsResponse = {
-  copyright: string;
-  records: Record[];
-};
-
-export type SeasonResponse = {
-  copyright: string;
-  seasons: [
-    {
-      seasonId: string;
-    }
-  ];
-};
-
-export type SeasonProps = {
-  seasonString: String;
-};
-
-export type LeaderProps = {
-  category: string;
-  type: string;
-};
-
-export type Leader = {
-  person: {
-    fullName: string;
-  };
-  rank: number;
-  season: string;
-  team: Team;
+export type Odds = {
+  providerId: number;
   value: string;
 };
 
-export type LeagueLeaders = [
-  {
-    season: string;
-    depth: string;
-    leaderCategory: string;
-    playerStatus: string;
-    leaders: Leader[];
-  }
-];
-
-export type LeaderResponse = {
-  copyRight: string;
-  leagueLeaders: LeagueLeaders;
+export type LocalizedName = {
+  default: string;
 };
 
-export type TodayResponse = {
-  copyright: string;
-  dates: [
-    {
-      date: string;
-      games: Game[];
-    }
-  ];
-  metadata: {
-    timeStamp: string;
+// ─── Schedule ─────────────────────────────────────────────────────────────────
+
+export type ScheduleTeam = {
+  abbrev: string;
+  logo: string;
+  score: number;
+  odds: Odds[];
+};
+
+export type Game = {
+  id: number;
+  gameState: GameState;
+  startTimeUTC: string;
+  awayTeam: ScheduleTeam;
+  homeTeam: ScheduleTeam;
+};
+
+export type ScheduleResponse = {
+  gameWeek: Array<{
+    date: string;
+    numberOfGames: number;
+    games: Game[];
+  }>;
+};
+
+// ─── Gamecenter ───────────────────────────────────────────────────────────────
+
+export type TvBroadcast = {
+  network: string;
+  market: string;
+  countryCode: string;
+};
+
+export type GameClock = {
+  running: boolean;
+  inIntermission: boolean;
+  secondsRemaining: number;
+  timeRemaining: string;
+};
+
+export type PeriodDescriptor = {
+  number: number;
+  periodType: string;
+  maxRegulationPeriods: number;
+};
+
+export type GamecenterTeam = {
+  abbrev: string;
+  logo: string;
+  name: LocalizedName;
+  score: number;
+  sog?: number;
+  radioLink?: string;
+};
+
+export type SituationTeam = {
+  strength: number;
+  situationDescriptions: string[];
+};
+
+export type GamecenterResponse = {
+  gameState: GameState;
+  clock: GameClock;
+  periodDescriptor: PeriodDescriptor;
+  tvBroadcasts: TvBroadcast[];
+  awayTeam: GamecenterTeam;
+  homeTeam: GamecenterTeam;
+  situation?: {
+    timeRemaining: string;
+    awayTeam: SituationTeam;
+    homeTeam: SituationTeam;
   };
-  totalItems: number;
-  totalEvents: number;
-  totalGames: number;
-  totalMatches: number;
-  wait: number;
+};
+
+// ─── Landing (game detail / modal) ────────────────────────────────────────────
+
+export type ScoringPeriod = {
+  periodDescriptor: PeriodDescriptor;
+  goals: Goal[];
+};
+
+export type LandingResponse = {
+  awayTeam: GamecenterTeam;
+  homeTeam: GamecenterTeam;
+  summary: {
+    scoring: ScoringPeriod[];
+  };
+};
+
+// ─── Standings ────────────────────────────────────────────────────────────────
+
+export type StandingRecord = {
+  teamAbbrev: LocalizedName;
+  teamName: LocalizedName;
+  teamLogo: string;
+  placeName: LocalizedName;
+  conferenceName: string;
+  divisionName: string;
+  divisionSequence: number;
+  conferenceSequence: number;
+  leagueSequence: number;
+  wins: number;
+  losses: number;
+  otLosses: number;
+  regulationPlusOtWins: number;
+  points: number;
+};
+
+export type StandingsResponse = {
+  standings: StandingRecord[];
+};
+
+// ─── Goal (GoalCard + GameDetailsScoring) ────────────────────────────────────
+
+export type Goal = {
+  strength: string;
+  name: LocalizedName;
+  headshot: string;
+  shotType: string;
+  timeInPeriod: string;
+  teamAbbrev: LocalizedName;
+  goalsToDate: number;
+  period?: number;
+  highlightClipSharingUrl?: string;
+};
+
+// ─── Shared component props ───────────────────────────────────────────────────
+
+export type GameIdProps = {
+  id: number;
 };
 
 export type LogoImageProps = {
   team: string;
   url: string;
 };
-
-// unsure if any of the above types are usable with new API
-
-export type Goal = {
-  strength: string;
-    name: {
-        default: string;
-    }
-    headshot: string;
-    shotType: string;
-    timeInPeriod: string;
-    teamAbbrev: {
-        default: string;
-    }
-    goalsToDate: number;
-    period?: number;
-    highlightClipSharingUrl?: string;
-}
