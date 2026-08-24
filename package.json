@@ -19,7 +19,7 @@
     "typescript": "^5.4.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "vite build",
     "deploy": "gh-pages -d dist",
     "start": "vite",
     "build": "vite build",

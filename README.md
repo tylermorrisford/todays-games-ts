@@ -4,9 +4,9 @@ An API-first NHL fan dashboard, making use of [some nice work](https://github.co
 ## Install
 - Clone this repo
 - cd into cloned directory
-- `npm install` the dependencies
-- `npm run start`
+- `pnpm install` the dependencies
+- `pnpm start`
 - Note: package.json includes a github pages deploy script that must be changed should you want to host this via github pages through your account. Info [here](https://github.com/gitname/react-gh-pages).
 
 ## Deploy hint
-(For me because I forget what to run when I need to redeploy) `npm run deploy -- -m "commit message"`
+(For me because I forget what to run when I need to redeploy) `pnpm run deploy -- -m "commit message"`
