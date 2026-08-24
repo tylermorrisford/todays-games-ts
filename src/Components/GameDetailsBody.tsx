@@ -44,32 +44,30 @@ const GameDetailsBody: React.FunctionComponent<GameDetailsBodyProps> = ({
     showGameModal,
     gameId,
     gameState,
-}): JSX.Element => {
+}) => {
     const { data, error, isLoading } = useSWR(
-        showGameModal ? getEndpoint(`/api/gamecenter`) : null,
-        async (url) => {
+        showGameModal ? [getEndpoint(`/api/gamecenter`), gameId] : null,
+        async ([url, id]) => {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: gameId }),
+                body: JSON.stringify({ id }),
             });
             return response.json();
         }
     );
 
-    // effect to handle ditching the cache
     React.useEffect(() => {
-        // only poll for live games
         if (gameState && isGameLive(gameState)) {
             const interval = setInterval(() => {
-                mutate(getEndpoint(`/api/gamecenter`));
-            }, 5000); // Attempt to avoid concurrent requests
+                mutate([getEndpoint(`/api/gamecenter`), gameId]);
+            }, 5000);
 
             return () => {
                 clearInterval(interval);
             };
         }
-    }, [gameState]);
+    }, [gameState, gameId]);
 
     const centerStyle = {
         display: 'flex',

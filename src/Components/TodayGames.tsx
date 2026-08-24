@@ -11,7 +11,7 @@ import { Game } from '../types';
 import { getEndpoint, showOdds, parseOdds } from '../Utils/helpers';
 import { LogoImage } from './LogoImage';
 
-export const TodayGames: React.FunctionComponent = (): JSX.Element => {
+export const TodayGames: React.FunctionComponent = () => {
   const [games, setGames] = React.useState<Game[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [today, setToday] = React.useState<string>('');

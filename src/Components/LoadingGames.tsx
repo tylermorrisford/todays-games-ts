@@ -1,8 +1,9 @@
+import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { Card } from 'react-bootstrap';
 
-const LoadingGames: React.FunctionComponent = (): JSX.Element => {
+const LoadingGames: React.FunctionComponent = () => {
   return (
     <>
       {Array.from(Array(5).keys()).map((i: number) => {

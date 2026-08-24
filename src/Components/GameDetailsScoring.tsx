@@ -16,7 +16,7 @@ const GameDetailsScoring: React.FunctionComponent<GameDetailsScoringProps> = ({
     scoring,
     awayTeam,
     homeTeam
-}): JSX.Element => {
+}) => {
     console.log('scoring', scoring);
 
     const allGoals: Goal[] = scoring?.flatMap((period: any) =>

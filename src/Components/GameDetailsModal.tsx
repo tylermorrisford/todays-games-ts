@@ -21,7 +21,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     gameId,
     gameState,
     threeMinRecap,
-}): JSX.Element => {
+}) => {
 
     const [showRadio, setShowRadio] = React.useState<boolean>(false);
     const [listenHome, setListenHome] = React.useState<boolean>(false);
@@ -29,12 +29,13 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
     const homeRef = React.useRef<any>(null);
     const awayRef = React.useRef<any>(null);
 
-    const { data } = useSWR(showGameModal ? getEndpoint(`/api/landing`) : null,
-        async (url) => {
+    const { data } = useSWR(
+        showGameModal ? [getEndpoint(`/api/landing`), gameId] : null,
+        async ([url, id]) => {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: gameId }),
+                body: JSON.stringify({ id }),
             });
             return response.json();
         },
@@ -42,9 +43,13 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
 
     React.useEffect(() => {
         if (showGameModal) {
-            mutate(getEndpoint(`/api/landing`));
+            mutate([getEndpoint(`/api/landing`), gameId]);
+        } else {
+            setShowRadio(false);
+            setListenHome(false);
+            setListenAway(false);
         }
-    }, [showGameModal]);
+    }, [showGameModal, gameId]);
 
     const getModalTitle = (): string => {
         if (data) {

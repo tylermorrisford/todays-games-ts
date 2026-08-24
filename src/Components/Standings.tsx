@@ -6,7 +6,7 @@ import { getEndpoint, getRecord } from '../Utils/helpers';
 import { StandingsLogoImage } from './LogoImage';
 import _ from 'lodash';
 
-export const Standings: React.FunctionComponent = React.memo((): JSX.Element => {
+export const Standings: React.FunctionComponent = React.memo(() => {
   const [leagueStandings, setLeagueStandings] = React.useState<any[]>([]);
   const [conferenceStandings, setConferenceStandings] = React.useState<any[]>([]);
   const [divisionStandings, setDivisionStandings] = React.useState<any[]>([]);

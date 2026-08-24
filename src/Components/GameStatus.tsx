@@ -11,7 +11,7 @@ interface ResponseObject {
 
 export const GameStatus: React.FunctionComponent<GameIdProps> = ({
   id,
-}): JSX.Element => {
+}) => {
   const [period, setPeriod] = React.useState<number>(0);
   const [remaining, setRemaining] = React.useState<string>('');
   const [running, setRunning] = React.useState<boolean>(false);

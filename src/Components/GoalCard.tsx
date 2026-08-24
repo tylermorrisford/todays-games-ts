@@ -7,7 +7,7 @@ interface GoalProps {
     goal: Goal;
 }
 
-const GoalCard: React.FunctionComponent<GoalProps> = ({ goal }): JSX.Element => {
+const GoalCard: React.FunctionComponent<GoalProps> = ({ goal }) => {
     const hasHighlight = !!goal.highlightClipSharingUrl;
     
     const handleClick = () => {
