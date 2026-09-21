@@ -25,7 +25,7 @@ export const GameStatus: React.FunctionComponent<GameIdProps> = ({ id }) => {
   const { clock, periodDescriptor } = data;
 
   return (
-    <Badge colorPalette={clock.running ? 'positive' : clock.inIntermission ? 'warning' : 'neutral'}>
+    <Badge size="xs" colorPalette={clock.running ? 'positive' : clock.inIntermission ? 'warning' : 'neutral'}>
       {clock.timeRemaining} - {clock.inIntermission ? 'Int' : getPeriod(periodDescriptor.number)}
     </Badge>
   );

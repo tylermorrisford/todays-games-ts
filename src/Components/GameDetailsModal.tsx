@@ -63,7 +63,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
             onOpenChange={(open) => { if (!open) handleCloseModal(); }}
             isDismissable
         >
-            <Dialog.Content size="lg">
+            <Dialog.Content>
                 <Dialog.Header>Game Details for {getModalTitle()}</Dialog.Header>
                 <Dialog.Body>
                     <GameDetailsBody gameId={gameId} showGameModal={showGameModal} gameState={gameState} />

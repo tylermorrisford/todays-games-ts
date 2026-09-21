@@ -8,7 +8,7 @@ export default function App() {
   return (
     <Box maxWidth="1200px" margin="0 auto" paddingX="400" paddingTop="400">
       <Flex direction={{ base: 'column', md: 'row' }} gap="800" alignItems="flex-start">
-        <Box flex="2" minWidth="0">
+        <Box flex="2" minWidth="0" width="100%">
           <TodayGames />
         </Box>
         <Box flex="3" minWidth="0">

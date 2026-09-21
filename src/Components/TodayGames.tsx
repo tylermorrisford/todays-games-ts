@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import useSWR from 'swr';
-import { Button, Card } from '@commercetools/nimbus';
+import { Box, Button, Card } from '@commercetools/nimbus';
 import NHLLogo from '../Assets/NHL_Logo_former.svg';
 import { GameStatus } from './GameStatus';
 import GameDetailsModal from './GameDetailsModal';
@@ -61,7 +61,7 @@ export const TodayGames: React.FunctionComponent = () => {
   };
 
   return (
-    <div>
+    <Box>
       <p style={{ fontSize: '2em', marginBottom: 0, display: 'flex', justifyContent: 'center', gap: '10px' }}>
         <img src={NHLLogo} width='45px' height='45px' alt='NHL Logo' />
         <strong>NHL Today</strong>
@@ -70,14 +70,14 @@ export const TodayGames: React.FunctionComponent = () => {
         <small style={{ color: 'grey' }}>...a dashboard for nerds</small>
       </p>
       <h4>Schedule for {today}</h4>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Button variant="ghost" size="sm" style={{ width: '45%' }} onPress={prevDay}>
+      <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Button variant="outline" size="sm" style={{ width: '45%' }} onPress={prevDay}>
           &larr; previous
         </Button>
-        <Button variant="ghost" size="sm" style={{ width: '45%' }} onPress={nextDay}>
+        <Button variant="outline" size="sm" style={{ width: '45%' }} onPress={nextDay}>
           next &rarr;
         </Button>
-      </div>
+      </Box>
       <>
         {noGames ? (
           <p>No games scheduled :/<br />Go have a beer</p>
@@ -100,30 +100,31 @@ export const TodayGames: React.FunctionComponent = () => {
                 return (
                   <Button
                     key={i}
-                    variant="ghost"
+                    variant="outline"
                     onPress={() => handleShowGameDetails(id, gState)}
                     className="game-card-btn"
                     width="100%"
                     padding="0"
                     display="block"
                     height="auto"
+                    marginTop="200"
                     _hover={{ boxShadow: 'none', background: 'transparent' }}
                   >
-                    <Card.Root variant="outlined" marginTop="200" style={{ fontSize: '1.3em', width: '100%', textAlign: 'left' }}>
+                    <Card.Root variant="outline" width="100%" style={{ fontSize: '1.3em', textAlign: 'left' }}>
                       <Card.Body>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: aScore > hScore ? 'green' : aScore < hScore ? 'grey' : 'black' }}>
+                        <Box style={{ display: 'flex', alignItems: 'center', gap: '6px', color: aScore > hScore ? 'green' : aScore < hScore ? 'grey' : 'black' }}>
                           <LogoImage team={awayTeam.abbrev} url={awayTeam.logo} />
                           <span>{awayTeam.abbrev}</span>
                           {showOdds(gState, startTimeUTC, awayTeam.odds) && <TeamOdds odds={parseOdds(awayTeam.odds)} />}
                           {scored && <span>{aScore}</span>}
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: hScore > aScore ? 'green' : hScore < aScore ? 'grey' : 'black' }}>
+                        </Box>
+                        <Box style={{ display: 'flex', alignItems: 'center', gap: '6px', color: hScore > aScore ? 'green' : hScore < aScore ? 'grey' : 'black' }}>
                           <LogoImage team={homeTeam.abbrev} url={homeTeam.logo} />
                           <span>{homeTeam.abbrev}</span>
                           {showOdds(gState, startTimeUTC, homeTeam.odds) && <TeamOdds odds={parseOdds(homeTeam.odds)} />}
                           {scored && <span>{hScore}</span>}
                           {rightElement && <span style={{ marginLeft: 'auto' }}>{rightElement}</span>}
-                        </div>
+                        </Box>
                       </Card.Body>
                     </Card.Root>
                   </Button>
@@ -139,6 +140,6 @@ export const TodayGames: React.FunctionComponent = () => {
           gameState={gameState}
         />
       </>
-    </div>
+    </Box>
   );
 };

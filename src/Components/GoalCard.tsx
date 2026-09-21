@@ -17,8 +17,8 @@ const GoalCard = ({ goal }: GoalProps) => {
     };
 
     const inner = (
-        <div style={{ display: 'grid', gridTemplateColumns: '35px 1fr', gridTemplateRows: '35px auto' }}>
-            <div style={{ placeSelf: 'center center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '45px 1fr' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                 <img
                     src={goal.headshot}
                     alt={goal.name.default}
@@ -28,9 +28,9 @@ const GoalCard = ({ goal }: GoalProps) => {
                 />
                 <div>{goal.teamAbbrev.default}</div>
             </div>
-            <div style={{ placeSelf: 'center end' }}>
-                {goal.name.default} ({goal.goalsToDate})<br />
-                <small>{goal.shotType} - {goal.strength}</small><br />
+            <div style={{ placeSelf: 'center start', display: 'flex', flexDirection: 'column', lineHeight: '1.3' }}>
+                <span>{goal.name.default} ({goal.goalsToDate})</span>
+                <small>{goal.shotType} - {goal.strength}</small>
                 <small>{goal.timeInPeriod} {getPeriod(goal.period!)}</small>
             </div>
         </div>
