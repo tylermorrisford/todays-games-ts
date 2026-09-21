@@ -79,7 +79,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                             <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
                                 <Button
                                     size="sm"
-                                    variant="secondary"
+                                    variant="outline"
                                     isDisabled={listenHome}
                                     onPress={() => {
                                         setShowRadio(!showRadio);
@@ -90,7 +90,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
                                 </Button>
                                 <Button
                                     size="sm"
-                                    variant="secondary"
+                                    variant="outline"
                                     isDisabled={listenAway}
                                     onPress={() => {
                                         setShowRadio(!showRadio);
