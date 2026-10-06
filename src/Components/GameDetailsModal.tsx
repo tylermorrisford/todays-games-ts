@@ -64,7 +64,7 @@ const GameDetailsModal: React.FunctionComponent<GameDetailsModalProps> = ({
             isDismissable
         >
             <Dialog.Content>
-                <Dialog.Header>Game Details for {getModalTitle()}</Dialog.Header>
+                <Dialog.Header>Game Details for {getModalTitle()}<Dialog.CloseTrigger /></Dialog.Header>
                 <Dialog.Body>
                     <GameDetailsBody gameId={gameId} showGameModal={showGameModal} gameState={gameState} />
                     <GameDetailsScoring
