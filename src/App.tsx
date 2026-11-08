@@ -11,7 +11,7 @@ export default function App() {
         <Box flex="2" minWidth="0" width="100%">
           <TodayGames />
         </Box>
-        <Box flex="3" minWidth="0">
+        <Box flex="3" minWidth="0" width="100%">
           <Standings />
         </Box>
       </Flex>
